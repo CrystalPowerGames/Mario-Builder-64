@@ -171,7 +171,7 @@ void bhv_scuttlebug_loop(void) {
     if (o->oSubAction >= 6) {
         if ((gMarioState->action & ACT_FLAG_ATTACKING) || (o->oSubAction == 7)) {
             spawn_mist_particles();
-            if (!cur_obj_drop_imbued_object(MB64_STAR_HEIGHT)) {
+            if (!cur_obj_drop_imbued_object(MB_STAR_HEIGHT)) {
                 obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
             }
             obj_mark_for_deletion(o);
@@ -311,7 +311,7 @@ void bhv_scuttlebug_loop(void) {
     }
 
     cur_obj_move_standard(-50);
-    cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT);
+    cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT);
 }
 
 u16 RandomMinMaxU16(u16 min, u16 max) {
@@ -456,7 +456,7 @@ void bhv_hammer_bro_loop(void) {
         }
 
         cur_obj_set_hitbox_and_die_if_attacked(&sHammerBroHitbox, SOUND_OBJ_KOOPA_DAMAGE,0);
-        cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT);
+        cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT);
     } else {
         cur_obj_disable_rendering();
         o->oTimer --;
@@ -638,5 +638,5 @@ void bhv_scuttlebug_normal_loop(void) {
     }
 
     cur_obj_move_standard(-50);
-    cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT);
+    cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT);
 }

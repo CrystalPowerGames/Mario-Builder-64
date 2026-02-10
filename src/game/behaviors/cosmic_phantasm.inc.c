@@ -126,7 +126,7 @@ void bhv_cosmic_phantasm(void) {
                     //gMarioState->EA_ACTIVE --;
                     //gMarioState->EA_LEFT --;
 
-                    if (!cur_obj_drop_imbued_object(MB64_STAR_HEIGHT)) {
+                    if (!cur_obj_drop_imbued_object(MB_STAR_HEIGHT)) {
                         obj_spawn_loot_yellow_coins(o, 5, 20.0f);
                     }
                     spawn_mist_particles_variable(0, 0, 100.0f);
@@ -254,7 +254,7 @@ void bhv_cosmic_phantasm(void) {
         o->oForwardVel = 0.f;
     }
 
-    cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT);
+    cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT);
 }
 
 // void bhv_paparazzi(void) {
@@ -292,14 +292,14 @@ void showrunner_battle_function(void) {
     o->oInteractType = INTERACT_DAMAGE;
     cur_obj_become_tangible();
     o->oDamageOrCoinValue = 0;
-    cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT);
+    cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT);
     switch(o->oAction) {
         case 0://init
             o->oAction=1;
             o->oQuicksandDepthToDie = 0;
         break;
         case 1://init
-            if (o->oDistanceToMario < MB64_BOSS_TRIGGER_DIST) {
+            if (o->oDistanceToMario < MB_BOSS_TRIGGER_DIST) {
                 o->oPlayingBossMusic = TRUE;
                 o->oHealth = 3;
                 o->oAction = 2;
@@ -420,7 +420,7 @@ void showrunner_battle_function(void) {
             }
         break;
         case 14://drop items
-            cur_obj_drop_imbued_object(MB64_STAR_HEIGHT);
+            cur_obj_drop_imbued_object(MB_STAR_HEIGHT);
             o->oPlayingBossMusic = FALSE;
             o->oAction = 15;
             o->header.gfx.scale[0] = 1.0f;

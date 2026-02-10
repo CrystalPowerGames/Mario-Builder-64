@@ -45,7 +45,7 @@ void bhv_mr_blizzard_init(void) {
     o->oMrBlizzardGraphYOffset = -200.0f;
     o->oMrBlizzardHeldObj = NULL;
     o->oQuicksandDepthToDie = 0;
-    create_respawner(MODEL_MAKER_BLIZZARD, bhvMrBlizzard, MB64_RESPAWN_DIST, 0, FALSE);
+    create_respawner(MODEL_MAKER_BLIZZARD, bhvMrBlizzard, MB_RESPAWN_DIST, 0, FALSE);
     cur_obj_hide();
 }
 
@@ -227,7 +227,7 @@ static void mr_blizzard_act_death(void) {
             if ((o->oMrBlizzardScale -= 0.03f) <= 0.0f) {
                 o->oMrBlizzardScale = 0.0f;
                 if (!GET_BPARAM3(o->oBehParams)) {
-                    if (!cur_obj_drop_imbued_object(MB64_STAR_HEIGHT)) {
+                    if (!cur_obj_drop_imbued_object(MB_STAR_HEIGHT)) {
                         obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
                     }
                     set_object_respawn_info_bits(o, RESPAWN_INFO_TYPE_NORMAL);

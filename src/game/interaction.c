@@ -25,7 +25,7 @@
 #include "config.h"
 #include "src/engine/behavior_script.h"
 #include "ingame_menu.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 #include "mario_actions_automatic.h"
 
 u8  sDelayInvincTimer;
@@ -729,10 +729,10 @@ void reset_mario_pitch(struct MarioState *m) {
 }
 
 u8 coinloop = 0;
-extern u8 mb64_lopt_coinstar;
+extern u8 mb_lopt_coinstar;
 u32 interact_coin(struct MarioState *m, UNUSED u32 interactType, struct Object *obj) {
 
-    if (mb64_lopt_game == MB64_GAME_BTCM) {
+    if (mb_lopt_game == MB_GAME_BTCM) {
         //BTCM COIN HEAL BEHAVIOR
         s32 healMult = (save_file_get_badge_equip() & (1<<BADGE_HEAL)) ? 2 : 1;
         if (obj->oDamageOrCoinValue == 3) { //green coin
@@ -866,12 +866,12 @@ u32 interact_star_or_key(struct MarioState *m, UNUSED u32 interactType, struct O
         m->lastStarCollected = (obj->oBehParams >> 24);
         //save_file_collect_star_or_key(m->numCoins, starIndex);
 
-        mb64_play_stars_bitfield |= ((u64)1 << starIndex);
+        mb_play_stars_bitfield |= ((u64)1 << starIndex);
 
-        mb64_play_stars = 0;
+        mb_play_stars = 0;
         for (u32 i=0;i<64;i++) {
-            if (mb64_play_stars_bitfield & ((u64)1 << i)) {
-                mb64_play_stars++;
+            if (mb_play_stars_bitfield & ((u64)1 << i)) {
+                mb_play_stars++;
             }
         }
 
@@ -1476,7 +1476,7 @@ u32 interact_koopa_shell(struct MarioState *m, UNUSED u32 interactType, struct O
 
             attack_object(obj, interaction);
             update_mario_sound_and_camera(m);
-            if (mb64_lopt_game != MB64_GAME_BTCM) {
+            if (mb_lopt_game != MB_GAME_BTCM) {
                 play_shell_music();
             }
             mario_drop_held_object(m);
@@ -1602,7 +1602,7 @@ u32 interact_cap(struct MarioState *m, UNUSED u32 interactType, struct Object *o
 
         switch (capFlag) {
             case MARIO_VANISH_CAP: 
-                if (mb64_lopt_game == MB64_GAME_BTCM) {
+                if (mb_lopt_game == MB_GAME_BTCM) {
                     // Cursed Mirror: Vanetal Cap
                     m->flags |= (MARIO_METAL_CAP|MARIO_VANISH_CAP);
                 } else {
@@ -1626,7 +1626,7 @@ u32 interact_cap(struct MarioState *m, UNUSED u32 interactType, struct Object *o
             case MARIO_WING_CAP:
                 m->flags |= MARIO_WING_CAP;
 
-                if (mb64_lopt_game == MB64_GAME_BTCM) {
+                if (mb_lopt_game == MB_GAME_BTCM) {
                     // Cursed Mirror: Rocket Boots
                     gMarioState->RFuel = 100;
                     gMarioState->powerup &= ~1;

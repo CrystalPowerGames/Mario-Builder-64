@@ -484,7 +484,7 @@ void bowser_reset_fallen_off_stage(void) {
  */
 void bowser_act_idle(void) {
     cur_obj_init_animation(BOWSER_ANIM_IDLE);
-    if (o->oDistanceToMario < MB64_BOSS_TRIGGER_DIST) {
+    if (o->oDistanceToMario < MB_BOSS_TRIGGER_DIST) {
         o->oPlayingBossMusic = TRUE;
         o->oAction = BOWSER_ACT_DANCE;
     }
@@ -1085,7 +1085,7 @@ void bowser_act_jump_onto_stage(void) {
             }
             // Land on stage
             if (bowser_check_fallen_off_stage()) {
-                cur_obj_drop_imbued_object(MB64_STAR_HEIGHT);
+                cur_obj_drop_imbued_object(MB_STAR_HEIGHT);
                 o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
                 return;
             } else if (bowser_land()) {
@@ -1140,7 +1140,7 @@ void bowser_act_dance(void) {
  */
 void bowser_spawn_collectable(void) {
     o->oPlayingBossMusic = FALSE;
-    cur_obj_drop_imbued_object(MB64_STAR_HEIGHT);
+    cur_obj_drop_imbued_object(MB_STAR_HEIGHT);
     cur_obj_play_sound_2(SOUND_GENERAL2_BOWSER_KEY);
 }
 
@@ -1472,7 +1472,7 @@ void bowser_free_update(void) {
         }
     }
 
-    cur_obj_die_if_oob(MB64_STAR_HEIGHT);
+    cur_obj_die_if_oob(MB_STAR_HEIGHT);
     // Sound states for Bowser Animations
     exec_anim_sound_state(sBowserSoundStates);
 }

@@ -40,9 +40,9 @@ static Trajectory sThiTinyMetalBallTraj[] = {
 };
 
 void bhv_bowling_ball_init(void) {
-    o->oGravity = MB64_GRAVITY_DEFAULT_STEP;
+    o->oGravity = MB_GRAVITY_DEFAULT_STEP;
     o->oFriction = 1.0f;
-    o->oBuoyancy = MB64_BUOYANCY_DEFAULT_STEP;
+    o->oBuoyancy = MB_BUOYANCY_DEFAULT_STEP;
     o->oWallHitboxRadius = 100.0f;
 }
 
@@ -55,7 +55,7 @@ void bowling_ball_set_hitbox(void) {
 }
 
 void bowling_ball_set_waypoints(void) {
-    o->oPathedStartWaypoint = mb64_trajectory_list[o->oBehParams2ndByte];
+    o->oPathedStartWaypoint = mb_trajectory_list[o->oBehParams2ndByte];
 }
 
 void bhv_bowling_ball_roll_loop(void) {
@@ -165,7 +165,7 @@ void bhv_thi_bowling_ball_spawner_loop(void) {
 void bhv_bob_pit_bowling_ball_init(void) {
     o->oGravity = 12.0f;
     o->oFriction = 1.0f;
-    o->oBuoyancy = MB64_BUOYANCY_DEFAULT_STEP;
+    o->oBuoyancy = MB_BUOYANCY_DEFAULT_STEP;
 }
 
 void bhv_bob_pit_bowling_ball_loop(void) {
@@ -184,9 +184,9 @@ void bhv_bob_pit_bowling_ball_loop(void) {
 }
 
 void bhv_free_bowling_ball_init(void) {
-    o->oGravity = MB64_GRAVITY_DEFAULT_STEP;
+    o->oGravity = MB_GRAVITY_DEFAULT_STEP;
     o->oFriction = 1.0f;
-    o->oBuoyancy = MB64_BUOYANCY_DEFAULT_STEP;
+    o->oBuoyancy = MB_BUOYANCY_DEFAULT_STEP;
     vec3f_copy(&o->oHomeVec, &o->oPosVec);
     o->oForwardVel = 0;
     o->oMoveAngleYaw = 0;
@@ -217,7 +217,7 @@ void bhv_free_bowling_ball_roll_loop(void) {
 }
 
 void bhv_free_bowling_ball_loop(void) {
-    o->oGravity = MB64_GRAVITY_DEFAULT_STEP;
+    o->oGravity = MB_GRAVITY_DEFAULT_STEP;
 
     switch (o->oAction) {
         case FREE_BBALL_ACT_IDLE:

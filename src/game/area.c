@@ -27,7 +27,7 @@
 #include "debug_box.h"
 #include "engine/colors.h"
 #include "profiling.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 #ifdef S2DEX_TEXT_ENGINE
 #include "s2d_engine/init.h"
 #endif

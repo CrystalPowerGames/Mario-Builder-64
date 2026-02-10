@@ -16,7 +16,7 @@
 #include "rumble_init.h"
 #include "ingame_menu.h"
 #include "save_file.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 
 #include "config.h"
 

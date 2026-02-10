@@ -351,7 +351,7 @@ void bhv_goomba_update(void) {
 
         cur_obj_set_home_if_safe();
         cur_obj_move_standard(-78);
-        cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT);
+        cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT);
         cur_obj_underwater_bubbles();
     } else {
         o->oAnimState = GOOMBA_ANIM_STATE_EYES_CLOSED;

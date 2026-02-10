@@ -62,6 +62,8 @@ enum GeoUpdateLayerTransparencyModes {
     GEO_TRANSPARENCY_MODE_INTER     = 30,
 };
 
+void super_cum_working(struct Object *obj, s32 animIndex);
+
 void cur_obj_shake(struct Object *obj);
 
 Gfx *geo_update_projectile_pos_from_parent(s32 callContext, UNUSED struct GraphNode *node, Mat4 mtx);

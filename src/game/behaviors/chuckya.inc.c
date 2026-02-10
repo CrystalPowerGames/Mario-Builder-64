@@ -133,7 +133,7 @@ void chuckya_act_3(void) {
 void chuckya_die(void) {
     obj_mark_for_deletion(o);
     obj_drop_mario();
-    if (!cur_obj_drop_imbued_object(MB64_STAR_HEIGHT)) {
+    if (!cur_obj_drop_imbued_object(MB_STAR_HEIGHT)) {
         obj_spawn_loot_yellow_coins(o, 5, 20.0f);
     }
     spawn_mist_particles_with_sound(SOUND_OBJ_CHUCKYA_DEATH);
@@ -163,7 +163,7 @@ void chuckya_move(void) {
         o->oCommonAnchorAction = 1;
         cur_obj_play_sound_2(SOUND_OBJ_GRAB_MARIO);
     }
-    if (cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT)) {
+    if (cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT)) {
         obj_drop_mario();
     }
 }

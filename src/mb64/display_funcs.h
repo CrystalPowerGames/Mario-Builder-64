@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef DISPLAY_FUNCS_H
+#define DISPLAY_FUNCS_H
+
+void df_follow_parent(s32 context);
 void df_hide_during_screenshot(UNUSED s32 context);
 void df_spawn_number(s8 pos[3], s32 number);
 void df_star(UNUSED s32 context);
@@ -45,3 +49,5 @@ void df_toad(s32 context);
 void df_ukiki(s32 context);
 void df_conveyor(s32 context);
 void df_timedblock(s32 context);
+
+#endif

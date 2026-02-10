@@ -96,7 +96,7 @@ void bhv_koopa_shell_loop(void) {
 
             o->oFaceAngleYaw += 0x1000;
             cur_obj_move_standard(-20);
-            if (mb64_get_water_level(o->oPosX, o->oPosY, o->oPosZ) < o->oPosY) {
+            if (mb_get_water_level(o->oPosX, o->oPosY, o->oPosZ) < o->oPosY) {
                 koopa_shell_spawn_sparkles(10.0f);
             }
             check_shell_despawn();
@@ -116,7 +116,7 @@ void bhv_koopa_shell_loop(void) {
             obj_copy_pos(o, gMarioObject);
             floor = cur_obj_update_floor_height_and_get_floor();
 
-            if (ABS(mb64_get_water_level(o->oPosX, o->oPosY, o->oPosZ) - o->oPosY) < 10.0f) {
+            if (ABS(mb_get_water_level(o->oPosX, o->oPosY, o->oPosZ) - o->oPosY) < 10.0f) {
                 koopa_shell_spawn_water_drop();
             } else if (ABS(o->oPosY - o->oFloorHeight) < 5.0f) {
                 if (floor != NULL && SURFACE_IS_BURNING_SMOKE(floor->type)) {

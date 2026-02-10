@@ -63,7 +63,7 @@ static void sequence_channel_process_sound(struct SequenceChannel *seqChannel) {
         channelVolume *= seqChannel->seqPlayer->muteVolumeScale;
     }
 
-    if (!(mb64_sram_configuration.option_flags & (1<<OPT_MUSIC))) {
+    if (!(mb_sram_configuration.option_flags & (1<<OPT_MUSIC))) {
         if (seqChannel->seqPlayer == &gSequencePlayers[SEQ_PLAYER_LEVEL]) {
             channelVolume = 0.0f;
         }

@@ -40,7 +40,7 @@
 #include "rumble_init.h"
 #include "puppylights.h"
 #include "object_collision.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 
 // #include "behaviors/star_door.inc.c"
 #include "behaviors/mr_i.inc.c"

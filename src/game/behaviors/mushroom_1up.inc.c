@@ -348,7 +348,7 @@ void bhv_crowbar_power_loop() {
     u8 power = (1 << o->oBehParams2ndByte);
 
     if (o->oAction == 0) {
-        if ((o->oDistanceToMario < MB64_DRAWDIST_LOW) && !(gGlobalTimer & 3)) spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
+        if ((o->oDistanceToMario < MB_DRAWDIST_LOW) && !(gGlobalTimer & 3)) spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
         o->oFaceAngleYaw += 0x400;
         o->oFaceAnglePitch = 0x1A00;
     

@@ -104,7 +104,7 @@ char *info_setup_guide[] = {
     "0the .exe file from Windows Defender.",
     NULL,
     "0For a more detailed guide, visit",
-    "0https://rentry.co/mb64-setup-guide",
+    "0https://rentry.co/mb-setup-guide",
     NULL,
 };
 
@@ -115,7 +115,7 @@ char *info_no_sd_card[] = {
     "0You can still use the level editor, but you cannot save the",
     "0levels you create, or play levels created by other people.",
     NULL,
-    "0Go to \"Help -> MB64 Setup Guide\" to get help",
+    "0Go to \"Help -> MB Setup Guide\" to get help",
     "0on how to set up SD card emulation.",
     NULL,
     "0Otherwise, your level will be lost when you exit the",
@@ -125,7 +125,7 @@ char *info_no_sd_card[] = {
 char *info_level_sharing[] = {
     "3Level Sharing",
     NULL,
-    "0You can upload your .mb64 files online and download levels",
+    "0You can upload your .mb files online and download levels",
     "0from other people at Level Share Square, the dedicated",
     "0website.",
     NULL,
@@ -315,7 +315,7 @@ char *new_level_templates[] = {
 #define levelIndex params[0].asInt
 void component_main_menu_level_render(MenuComponent *m, s16 x, s16 y) {
     FrameComponent *f = (FrameComponent *)m;
-    u16 (*u16_array)[MAX_FILES][64][64] = segmented_to_virtual(mb64_level_entry_piktcher);
+    u16 (*u16_array)[MAX_FILES][64][64] = segmented_to_virtual(mb_level_entry_piktcher);
 
     x += m->xpos;
     y += m->ypos;
@@ -378,7 +378,7 @@ enum MainMenuPages {
     PAGE_CREDITS,
 };
 
-u8 gMB64LevelLoaded = FALSE;
+u8 gMBLevelLoaded = FALSE;
 
 #define TO_NEXT 1
 #define TO_PREV -1
@@ -547,7 +547,7 @@ FrameComponent *main_menu_create_info(MenuComponent *parent, char **text, int le
 }
 
 void main_menu_load_level(TextComponent *b) {
-    FILINFO * level_entries_ptr = segmented_to_virtual(mb64_level_entries);
+    FILINFO * level_entries_ptr = segmented_to_virtual(mb_level_entries);
 
     // Animate menu
     MenuComponent *m = get_child(gMainMenuPageHandler);
@@ -555,29 +555,29 @@ void main_menu_load_level(TextComponent *b) {
     menu_play_click_sound();
     main_menu_page_change_animate(m, TRUE);
 
-    mb64_mode = MB64_MODE_UNINITIALIZED;
+    mb_mode = MB_MODE_UNINITIALIZED;
     reset_play_state();
-    strncpy(mb64_file_name, level_entries_ptr[gLevelSelectorIndex].fname, MAX_FILE_NAME_SIZE);
-    struct mb64_level_save_header *level_info = get_level_info_from_filename(mb64_file_name);
-    mb64_lopt_game = level_info->game;
+    strncpy(mb_file_name, level_entries_ptr[gLevelSelectorIndex].fname, MAX_FILE_NAME_SIZE);
+    struct MBLevelSaveHeader *level_info = get_level_info_from_filename(mb_file_name);
+    mb_lopt_game = level_info->game;
     // Load level
     if (gCurrMainMenuPage == PAGE_LOAD_LEVEL) {
-        mb64_target_mode = MB64_MODE_MAKE;
-        mb64_level_action = MB64_LA_BUILD;
+        mb_target_mode = MB_MODE_MAKE;
+        gLevelAction = MB_LA_BUILD;
     } else {
-        mb64_target_mode = MB64_MODE_PLAY;
-        mb64_level_action = MB64_LA_PLAY_LEVELS;
+        mb_target_mode = MB_MODE_PLAY;
+        gLevelAction = MB_LA_PLAY_LEVELS;
     }
-    gMB64LevelLoaded = TRUE;
+    gMBLevelLoaded = TRUE;
 }
 
 #define LEVELS_PER_PAGE 5
 FrameComponent *main_menu_create_level_page(PageHandlerComponent *ph, s32 index) {
-    FILINFO * level_entries_ptr = segmented_to_virtual(mb64_level_entries);
+    FILINFO * level_entries_ptr = segmented_to_virtual(mb_level_entries);
     FrameComponent *f = init_frame_component(NULL);
     ListComponent *l = init_sublist(f, get_id(ph), index * LEVELS_PER_PAGE);
 
-    int numLevels = MIN(LEVELS_PER_PAGE, mb64_level_entry_count - (index * LEVELS_PER_PAGE));
+    int numLevels = MIN(LEVELS_PER_PAGE, mb_level_entry_count - (index * LEVELS_PER_PAGE));
     for (int i = 0; i < numLevels; i++) {
         int levelindex = index * LEVELS_PER_PAGE + i;
         AnimatedComponent *a = alloc_component(NULL, MENU_ANIMATED);
@@ -588,7 +588,7 @@ FrameComponent *main_menu_create_level_page(PageHandlerComponent *ph, s32 index)
         t->skipExtension = TRUE;
         component_list_append(l, a, 0, 75 - (i * 36));
 
-        if (MB64_VERSION < mb64_level_entry_version[levelindex]) {
+        if (MB_VERSION < mb_level_entry_version[levelindex]) {
             component_list_get(l, i)->disabled = TRUE;
             t->color = TEXT_RED;
         }
@@ -624,14 +624,14 @@ void main_menu_level_list_fast_scroll(MenuComponent *m, UNUSED s16 x, UNUSED s16
 
 char *page_buf[12];
 void main_menu_create_level_list(MenuComponent *parent) {
-    if (mb64_level_entry_count == 0) {
+    if (mb_level_entry_count == 0) {
         AnimatedComponent *a = alloc_component(parent, MENU_ANIMATED);
         component_set_pos(a, SCREEN_WIDTH/2,200);
         init_box_component(a, 0, 7, 55, 11, 11, 190);
         TextComponent *t = init_text_component(a, 0, 0, "No levels...", TEXT_CENTER, TEXT_RED);
         return;
     }
-    int levelcount = (mb64_level_entry_count-1) / LEVELS_PER_PAGE + 1;
+    int levelcount = (mb_level_entry_count-1) / LEVELS_PER_PAGE + 1;
     PageHandlerComponent *ph = init_page_handler(parent, main_menu_create_level_page, levelcount, SCREEN_HEIGHT/2 - 30);
     component_set_pos(ph, SCREEN_WIDTH/2, SCREEN_HEIGHT/2 + 15);
     ph->direction = DIR_VERTICAL;
@@ -662,24 +662,24 @@ void keyboard_start_level(MenuComponent *m, UNUSED s16 x, UNUSED s16 y) {
         play_sound(SOUND_MENU_STAR_SOUND, gGlobalSoundSource);
         main_menu_page_change_animate(page, TRUE);
 
-        mb64_mode = MB64_MODE_UNINITIALIZED;
+        mb_mode = MB_MODE_UNINITIALIZED;
         reset_play_state();
-        strcpy(mb64_file_name, main_menu_keyboard_input);
-        strcat(mb64_file_name, ".mb64");
+        strcpy(mb_file_name, main_menu_keyboard_input);
+        strcat(mb_file_name, ".mb");
 
-        mb64_target_mode = MB64_MODE_MAKE;
-        mb64_level_action = MB64_LA_BUILD;
-        gMB64LevelLoaded = TRUE;
+        mb_target_mode = MB_MODE_MAKE;
+        gLevelAction = MB_LA_BUILD;
+        gMBLevelLoaded = TRUE;
     }
 }
 
 void no_sd_card_start_level(void) {
     play_sound(SOUND_MENU_STAR_SOUND, gGlobalSoundSource);
-    mb64_mode = MB64_MODE_UNINITIALIZED;
+    mb_mode = MB_MODE_UNINITIALIZED;
     reset_play_state();
-    mb64_target_mode = MB64_MODE_MAKE;
-    mb64_level_action = MB64_LA_BUILD;
-    gMB64LevelLoaded = TRUE;
+    mb_target_mode = MB_MODE_MAKE;
+    gLevelAction = MB_LA_BUILD;
+    gMBLevelLoaded = TRUE;
 }
 
 void keyboard_set_author_name(MenuComponent *m, UNUSED s16 x, UNUSED s16 y) {
@@ -695,12 +695,12 @@ void keyboard_set_author_name(MenuComponent *m, UNUSED s16 x, UNUSED s16 y) {
         play_sound(SOUND_MENU_STAR_SOUND, gGlobalSoundSource);
         main_menu_page_change_animate(page, TRUE);
 
-        strncpy(mb64_username,main_menu_keyboard_input,MAX_USERNAME_SIZE);
-        strncpy(mb64_sram_configuration.author, mb64_username, MAX_USERNAME_SIZE);
+        strncpy(mb_username,main_menu_keyboard_input,MAX_USERNAME_SIZE);
+        strncpy(mb_sram_configuration.author, mb_username, MAX_USERNAME_SIZE);
         if (gSramProbe != 0) {
-            nuPiWriteSram(0, &mb64_sram_configuration, ALIGN8(sizeof(mb64_sram_configuration)));
+            nuPiWriteSram(0, &mb_sram_configuration, ALIGN8(sizeof(mb_sram_configuration)));
         }
-        mb64_has_username = TRUE;
+        mb_has_username = TRUE;
     }
 }
 
@@ -748,7 +748,7 @@ void main_menu_page_change_animate(FrameComponent *page, int out) {
             break;
         case PAGE_PLAY_LEVEL:
         case PAGE_LOAD_LEVEL:
-            if (mb64_level_entry_count == 0) {
+            if (mb_level_entry_count == 0) {
                 main_menu_key_text_animate(page, out, 1);
                 break;
             }
@@ -823,7 +823,7 @@ void create_page(int page, int animate) {
         case PAGE_HELP:
             main_menu_create_title(frame, "Help", 188);
             l = main_menu_create_list(frame, 143);
-            main_menu_create_button(l, "MB64 Setup Guide",  0, button_change_page, PAGE_SETUP_GUIDE);
+            main_menu_create_button(l, "MB Setup Guide",  0, button_change_page, PAGE_SETUP_GUIDE);
             main_menu_create_button(l, "Editor Controls", -30, button_change_page, PAGE_EDITOR_CONTROLS);
             main_menu_create_button(l, "Share Levels",    -60, button_change_page, PAGE_SHARE_LEVELS);
             main_menu_create_button(l, "Changelog",       -90, button_change_page, PAGE_CHANGELOG);
@@ -834,9 +834,9 @@ void create_page(int page, int animate) {
         case PAGE_NEW_LEVEL:
             main_menu_create_title(frame, "Level Settings", 188);
             l = main_menu_create_list(frame, 153);
-            main_menu_create_selector(l, "Mode:", 0, &mb64_lopt_game, new_level_gamemodes, ARRAY_COUNT(new_level_gamemodes));
-            main_menu_create_selector(l, "Size:", -25, &mb64_lopt_size, new_level_sizes, ARRAY_COUNT(new_level_sizes));
-            main_menu_create_selector(l, "Template:", -50, &mb64_lopt_template, new_level_templates, ARRAY_COUNT(new_level_templates));
+            main_menu_create_selector(l, "Mode:", 0, &mb_lopt_game, new_level_gamemodes, ARRAY_COUNT(new_level_gamemodes));
+            main_menu_create_selector(l, "Size:", -25, &mb_lopt_size, new_level_sizes, ARRAY_COUNT(new_level_sizes));
+            main_menu_create_selector(l, "Template:", -50, &mb_lopt_template, new_level_templates, ARRAY_COUNT(new_level_templates));
             if (gSDCard) {
                 main_menu_create_button(l, "Create!", -100, button_change_page, PAGE_LEVEL_NAME);
             } else {
@@ -897,7 +897,7 @@ void create_page(int page, int animate) {
             gPrevMainMenuButton = 3;
             break;
         case PAGE_CHANGE_NAME:
-            strncpy(main_menu_keyboard_input, mb64_sram_configuration.author, MAX_USERNAME_SIZE);
+            strncpy(main_menu_keyboard_input, mb_sram_configuration.author, MAX_USERNAME_SIZE);
             main_menu_create_keyboard_page(frame, "Enter new author name:", keyboard_set_author_name, FALSE);
             gPrevMainMenuPage = PAGE_BUILD;
             gPrevMainMenuButton = 2;
@@ -943,7 +943,7 @@ void set_initial_menu_page(void) {
     gCurrMainMenuPage = PAGE_MAIN;
     if (!gSDCard) {
         gCurrMainMenuPage = PAGE_NO_SD_CARD;
-    } else if (mb64_sram_configuration.author[0] == 0) {
+    } else if (mb_sram_configuration.author[0] == 0) {
         gCurrMainMenuPage = PAGE_AUTHOR;
     }
 }
@@ -956,7 +956,7 @@ void init_main_menu(int page) {
 }
 
 void reset_main_menu_state(void) {
-    gMB64LevelLoaded = FALSE;
+    gMBLevelLoaded = FALSE;
     gMainMenuPageHandler = NULL;
     gPrevMainMenuPage = PAGE_NONE;
 }

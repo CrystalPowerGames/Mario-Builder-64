@@ -18,7 +18,7 @@ void grindel_thwomp_act_falling(void) {
     if (o->oVelY > -80.0f) { //terminal velocity
         o->oVelY += -4.0f;
     }
-    f32 waterlevel = mb64_get_water_level(o->oPosX, o->oPosY, o->oPosZ);
+    f32 waterlevel = mb_get_water_level(o->oPosX, o->oPosY, o->oPosZ);
     if (o->oPosY < waterlevel) {
         // Apply drag
         o->oVelY *= 0.8f;
@@ -51,7 +51,7 @@ void grindel_thwomp_act_land(void) {
         o->oAction = GRINDEL_THWOMP_ACT_ON_GROUND;
     }
     o->oFloorType = o->oFloor->type;
-    if (cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT)) {
+    if (cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT)) {
         o->prevObj->activeFlags = ACTIVE_FLAG_DEACTIVATED;
     }
 }

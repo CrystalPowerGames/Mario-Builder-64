@@ -30,7 +30,7 @@
 #include "spawn_sound.h"
 #include "rumble_init.h"
 #include "puppylights.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 
 /**
  * @file obj_behaviors.c
@@ -388,7 +388,7 @@ void obj_splash(f32 waterY, f32 objY) {
 }
 
 void cur_obj_underwater_bubbles() {
-    f32 waterlevel = mb64_get_water_level(o->oPosX, o->oPosY, o->oPosZ);
+    f32 waterlevel = mb_get_water_level(o->oPosX, o->oPosY, o->oPosZ);
     // Spawns bubbles if underwater.
     if ((o->oPosY + 50) < waterlevel && !(gGlobalTimer & 31)) {
         spawn_object(o, MODEL_WHITE_PARTICLE_SMALL, bhvObjectBubble);
@@ -428,7 +428,7 @@ s16 object_step(void) {
         o->oFloorHeight = floorY;
         o->oFloorType   = sObjFloor->type;
 
-        waterY = mb64_get_water_level(objX, objY + o->oVelY, objZ);
+        waterY = mb_get_water_level(objX, objY + o->oVelY, objZ);
         if (waterY > objY) {
             calc_new_obj_vel_and_pos_y_underwater(sObjFloor, floorY, 0, 0, waterY, floorOffset);
             collisionFlags += OBJ_COL_FLAG_UNDERWATER;
@@ -474,7 +474,7 @@ s16 object_step(void) {
     o->oFloorType   = sObjFloor->type;
 
     if (turn_obj_away_from_steep_floor(sObjFloor, floorY, objVelX, objVelZ) == 1) {
-        waterY = mb64_get_water_level(objX, objY + o->oVelY, objZ);
+        waterY = mb_get_water_level(objX, objY + o->oVelY, objZ);
         if (waterY > objY) {
             calc_new_obj_vel_and_pos_y_underwater(sObjFloor, floorY, objVelX, objVelZ, waterY, floorOffset);
             collisionFlags += OBJ_COL_FLAG_UNDERWATER;

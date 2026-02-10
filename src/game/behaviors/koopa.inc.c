@@ -7,7 +7,7 @@
  * flag.
  */
 
-extern u8 mb64_lopt_seq[5];
+extern u8 mb_lopt_seq[5];
 
 /**
  * Hitbox for koopa - this is used for every form except Koopa the Quick, which
@@ -84,19 +84,19 @@ void bhv_koopa_init(void) {
 
         //navigate trajectory until find -1
         u16 i = 0;
-        while (mb64_trajectory_list[o->oBehParams2ndByte][i][0] != -1) {
+        while (mb_trajectory_list[o->oBehParams2ndByte][i][0] != -1) {
             i ++;
         }
         struct Object *koopa_flag = spawn_object(o,MODEL_NONE,bhvKoopaRaceEndpoint);
-        koopa_flag->oPosX = mb64_trajectory_list[o->oBehParams2ndByte][i-1][1];
-        koopa_flag->oPosY = mb64_trajectory_list[o->oBehParams2ndByte][i-1][2] - TILE_SIZE/2;
-        koopa_flag->oPosZ = mb64_trajectory_list[o->oBehParams2ndByte][i-1][3];
+        koopa_flag->oPosX = mb_trajectory_list[o->oBehParams2ndByte][i-1][1];
+        koopa_flag->oPosY = mb_trajectory_list[o->oBehParams2ndByte][i-1][2] - TILE_SIZE/2;
+        koopa_flag->oPosZ = mb_trajectory_list[o->oBehParams2ndByte][i-1][3];
         o->parentObj = koopa_flag;
 
         rotate_obj_toward_trajectory_angle(o,o->oBehParams2ndByte);
 
         o->oKoopaAgility = 4.0f;
-        o->oDrawingDistance = MB64_DRAWDIST_MEDIUM;
+        o->oDrawingDistance = MB_DRAWDIST_MEDIUM;
         cur_obj_scale(3.0f);
     } else {
         o->oKoopaAgility = 1.0f;
@@ -321,7 +321,7 @@ static void koopa_shelled_update(void) {
         }
     }
 
-    cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT);
+    cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT);
     cur_obj_move_standard(-78);
 }
 
@@ -447,7 +447,7 @@ static void koopa_unshelled_update(void) {
     }
 
     obj_handle_attacks(&sKoopaHitbox, o->oAction, sKoopaUnshelledAttackHandlers);
-    cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT);
+    cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT);
     cur_obj_move_standard(-78);
 }
 
@@ -461,7 +461,7 @@ s32 obj_begin_race(s32 noTimer) {
         cur_obj_play_sound_2(SOUND_GENERAL_RACE_GUN_SHOT);
 
         if (!noTimer) {
-            play_mb64_extra_music(1);
+            play_mb_extra_music(1);
 
             level_control_timer(TIMER_CONTROL_SHOW);
             level_control_timer(TIMER_CONTROL_START);
@@ -510,7 +510,7 @@ static void koopa_the_quick_act_show_init_text(void) {
     o->oAction = KOOPA_THE_QUICK_ACT_RACE;
     o->oForwardVel = 0.0f;
     
-    o->oPathedStartWaypoint = o->oPathedPrevWaypoint = mb64_trajectory_list[o->oBehParams2ndByte];
+    o->oPathedStartWaypoint = o->oPathedPrevWaypoint = mb_trajectory_list[o->oBehParams2ndByte];
 
     o->oKoopaTurningAwayFromWall = FALSE;
     o->oFlags |= OBJ_FLAG_ACTIVE_FROM_AFAR;
@@ -674,7 +674,7 @@ static void koopa_the_quick_act_after_race(void) {
     cur_obj_init_animation_with_sound(KOOPA_ANIM_STOPPED);
 
     if (o->parentObj->oKoopaRaceEndpointDialog == 0) {
-        stop_mb64_extra_music(1);
+        stop_mb_extra_music(1);
         level_control_timer(TIMER_CONTROL_HIDE);
 
         // Determine which text to display
@@ -699,7 +699,7 @@ static void koopa_the_quick_act_after_race(void) {
 void koopa_the_quick_reset(void) {
     vec3_copy(&o->oPosVec, &o->oHomeVec);
     rotate_obj_toward_trajectory_angle(o,o->oBehParams2ndByte);
-    o->oPathedStartWaypoint = o->oPathedPrevWaypoint = mb64_trajectory_list[o->oBehParams2ndByte];
+    o->oPathedStartWaypoint = o->oPathedPrevWaypoint = mb_trajectory_list[o->oBehParams2ndByte];
     o->oAction = KOOPA_THE_QUICK_ACT_WAIT_BEFORE_RACE;
     cur_obj_init_animation_with_sound(KOOPA_ANIM_STOPPED);
     spawn_mist_particles();
@@ -747,7 +747,7 @@ static void koopa_the_quick_update(void) {
     cur_obj_push_mario_away_from_cylinder(140.0f, 300.0f);
     cur_obj_move_standard(-78);
     if ((!o->oFloor) || (o->oFloorType == SURFACE_DEATH_PLANE && o->oPosY < o->oFloorHeight + 100.f)) {
-        stop_mb64_extra_music(1);
+        stop_mb_extra_music(1);
         level_control_timer(TIMER_CONTROL_HIDE);
         koopa_the_quick_reset();
     }

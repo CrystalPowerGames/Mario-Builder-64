@@ -30,7 +30,7 @@
 #include "level_update.h"
 #include "hud.h"
 #include "rendering_graph_node.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 
 s8 tab_index = 0;
 u16 menu_sintimer = 0;
@@ -204,7 +204,7 @@ void render_generic_char(u8 c) {
 #define CHAR_WIDTH_SPACE (f32)(gDialogCharWidths[DIALOG_CHAR_SPACE])
 #define CHAR_WIDTH_DEFAULT (f32)(gDialogCharWidths[str[strPos]])
 
-u8 mb64_ascii_lut[] = {
+u8 mb_ascii_lut[] = {
     0,0,0,0,0,0,0,0, // 0 - 7
     0,0,0xFE,0,0,0,0,0, // 8 - 15
     0x54,0x55,0x57,0x58,0x56,0x59,0,0, // 16 - 23
@@ -252,8 +252,8 @@ void print_generic_string_ascii(s16 x, s16 y, const char *str) {
                 lineNum++;
             break;
             default:
-                render_generic_char(mb64_ascii_lut[(u8)str[strPos]]);
-                create_dl_translation_matrix(MENU_MTX_NOPUSH, gDialogCharWidths[mb64_ascii_lut[(u8)str[strPos]]], 0.0f, 0.0f);
+                render_generic_char(mb_ascii_lut[(u8)str[strPos]]);
+                create_dl_translation_matrix(MENU_MTX_NOPUSH, gDialogCharWidths[mb_ascii_lut[(u8)str[strPos]]], 0.0f, 0.0f);
             break;
         }
         strPos++;
@@ -267,7 +267,7 @@ s32 get_string_width_ascii(char *str) {
     s16 width = 0;
 
     while (str[strPos] != 0) {
-        width += gDialogCharWidths[mb64_ascii_lut[(u8)str[strPos]]];
+        width += gDialogCharWidths[mb_ascii_lut[(u8)str[strPos]]];
         strPos++;
     }
     return width;

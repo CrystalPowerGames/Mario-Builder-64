@@ -1,6 +1,6 @@
 #include "menu_engine.h"
 
-char *mb64_tips[] = {
+char *mb_tips[] = {
     "Tip: Use D-Pad ^ to flip certain tiles like slopes or slabs!",
     "Tip: Use D-Pad | to change the camera's\n   zoom level while building!",
     "Tip: Press \x15 and \x13 at the same time to copy\n the tile or object the cursor is on!",
@@ -71,9 +71,9 @@ void show_error(char *msg) {
 }
 
 void show_tip(void) {
-    s32 count = ARRAY_COUNT(mb64_tips);
-    if (mb64_lopt_game != MB64_GAME_BTCM) count -= NUM_BTCM_TIPS;
-    show_message(mb64_tips[(s32)(random_float() * count)], TEXT_WHITE, 180, 30);
+    s32 count = ARRAY_COUNT(mb_tips);
+    if (mb_lopt_game != MB_GAME_BTCM) count -= NUM_BTCM_TIPS;
+    show_message(mb_tips[(s32)(random_float() * count)], TEXT_WHITE, 180, 30);
 }
 
 // Coord display
@@ -82,7 +82,7 @@ AnimatedComponent *sCoordDisplay = NULL;
 
 char coord_display_buf[20];
 void update_coord_display(UNUSED MenuComponent *m, UNUSED s16 x, UNUSED s16 y) {
-    sprintf(coord_display_buf, "%d, %d, %d", mb64_cursor_pos[0], mb64_cursor_pos[1], mb64_cursor_pos[2]);
+    sprintf(coord_display_buf, "%d, %d, %d", mb_cursor_pos[0], mb_cursor_pos[1], mb_cursor_pos[2]);
 }
 
 void show_coord_display(void) {
@@ -116,7 +116,7 @@ void yellow_text_set_visibility(void) {
     if (gPlayer1Controller->buttonPressed & Z_TRIG) {
         sYellowTextVisible ^= 1;
     }
-    int visible = sYellowTextVisible && !mb64_freecam_snap;
+    int visible = sYellowTextVisible && !mb_freecam_snap;
     sYellowText->alpha = visible ? 255 : 0;
 }
 

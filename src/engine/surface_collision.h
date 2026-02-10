@@ -4,7 +4,7 @@
 #include <PR/ultratypes.h>
 
 #include "types.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 
 #include "config/config_world.h"
 
@@ -17,10 +17,10 @@
 #define FLOOR_LOWER_LIMIT_MISC      (FLOOR_LOWER_LIMIT + 1000)
 
 #define is_outside_level_bounds(xPos, zPos) \
-    (((xPos) <= mb64_min_coord) ||     \
-     ((xPos) >= mb64_max_coord) ||     \
-     ((zPos) <= mb64_min_coord) ||     \
-     ((zPos) >= mb64_max_coord))
+    (((xPos) <= gMBMinCoord) ||     \
+     ((xPos) >= gMBMaxCoord) ||     \
+     ((zPos) <= gMBMinCoord) ||     \
+     ((zPos) >= gMBMaxCoord))
 
 #define SURFACE_YAW(s) ({ \
     Vec3f normal; \
@@ -61,7 +61,7 @@ f32 find_floor_height(f32 x, f32 y, f32 z);
 f32 find_floor(f32 xPos, f32 yPos, f32 zPos, struct Surface **pfloor);
 f32 find_floor_short(f32 x, f32 y, f32 z, struct Surface **pfloor);
 f32 find_floor_height_short(f32 x, f32 y, f32 z);
-s32 mb64_get_water_level(s32 x, s32 y, s32 z); // in other file
+s32 mb_get_water_level(s32 x, s32 y, s32 z); // in other file
 // s32 get_room_at_pos(f32 x, f32 y, f32 z);
 // s32 find_water_level_and_floor(s32 x, s32 y, s32 z, struct Surface **pfloor);
 // s32 find_water_level(s32 x, s32 z);

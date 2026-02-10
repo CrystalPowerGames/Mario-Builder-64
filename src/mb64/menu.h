@@ -2,14 +2,14 @@
 
 #include "menu_engine.h"
 
-extern u8 mb64_toolbar[9];
-extern u8 mb64_toolbar_params[9];
-extern u8 mb64_toolbox[18 * 5];
-extern u8 mb64_toolbox_params[18 * 5];
+extern u8 mb_toolbar[9];
+extern u8 mb_toolbar_params[9];
+extern u8 mb_toolbox[18 * 5];
+extern u8 mb_toolbox_params[18 * 5];
 
-extern u8 mb64_toolbar_defaults[9];
-extern u8 mb64_toolbox_btcm[18 * 5];
-extern u8 mb64_toolbox_vanilla[18 * 5];
+extern u8 mb_toolbar_defaults[9];
+extern u8 mb_toolbox_btcm[18 * 5];
+extern u8 mb_toolbox_vanilla[18 * 5];
 
 extern AnimatedComponent *gToolbar;
 extern MenuComponent *gCurDialog;

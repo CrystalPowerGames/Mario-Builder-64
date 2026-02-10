@@ -390,7 +390,7 @@ struct Object *spawn_water_droplet(struct Object *parent, struct WaterDropletPar
     }
 
     if (params->flags & WATER_DROPLET_FLAG_SET_Y_TO_WATER_LEVEL) {
-        newObj->oPosY = mb64_get_water_level(newObj->oPosX, newObj->oPosY, newObj->oPosZ);
+        newObj->oPosY = mb_get_water_level(newObj->oPosX, newObj->oPosY, newObj->oPosZ);
     }
 
     if (params->flags & WATER_DROPLET_FLAG_RAND_OFFSET_XZ) {
@@ -659,7 +659,7 @@ struct Object *cur_obj_find_nearest_star_obj(const BehaviorScript *behavior, f32
         if (obj->behavior == behaviorAddr
             && obj->activeFlags != ACTIVE_FLAG_DEACTIVATED
             && obj != o
-            && !(mb64_play_stars_bitfield & ((u64)1 << GET_BPARAM1(obj->oBehParams)))
+            && !(mb_play_stars_bitfield & ((u64)1 << GET_BPARAM1(obj->oBehParams)))
         ) {
             if (behavior == bhvKoopa && obj->parentObj->oKoopaRaceEndpointDialog == 1) {
                 obj = (struct Object *) obj->header.next;
@@ -688,16 +688,16 @@ u8 imbueObjectLists[] = {
     OBJ_LIST_DESTRUCTIVE,
 };
 
-struct Object *cur_obj_nearest_obj_in_list_with_imbue(f32 *dist, s32 list, s32 imbue) {
+struct Object *cur_obj_nearest_obj_in_list_with_imbue(f32 *dist, s32 list, s32 Imbue) {
     struct ObjectNode *listHead = &gObjectLists[list];
     struct Object *obj = (struct Object *)listHead->next;
     struct Object *closestObj = NULL;
     f32 minDist = 0x20000;
 
     while (obj != (struct Object *)listHead) {
-        if (obj->oImbue == imbue) {
-            if (imbue == IMBUE_STAR) {
-                if (mb64_play_stars_bitfield & ((u64)1 << GET_BPARAM1(obj->oBehParams))) {
+        if (obj->oImbue == Imbue) {
+            if (Imbue == IMBUE_STAR) {
+                if (mb_play_stars_bitfield & ((u64)1 << GET_BPARAM1(obj->oBehParams))) {
                     obj = (struct Object *)obj->header.next;
                     continue;
                 }
@@ -716,12 +716,12 @@ struct Object *cur_obj_nearest_obj_in_list_with_imbue(f32 *dist, s32 list, s32 i
     return closestObj;
 }
 
-struct Object *cur_obj_nearest_object_with_imbue(f32 *dist, s32 imbue) {
+struct Object *cur_obj_nearest_object_with_imbue(f32 *dist, s32 Imbue) {
     struct Object *closestObj = NULL;
     f32 minDist = 0x20000;
 
     for (s32 i = 0; i < ARRAY_COUNT(imbueObjectLists); i++) {
-        struct Object *obj = cur_obj_nearest_obj_in_list_with_imbue(dist, imbueObjectLists[i], imbue);
+        struct Object *obj = cur_obj_nearest_obj_in_list_with_imbue(dist, imbueObjectLists[i], Imbue);
         if (obj != NULL && *dist < minDist) {
             closestObj = obj;
             minDist = *dist;
@@ -798,13 +798,13 @@ struct Object *cur_obj_find_nearby_held_actor(const BehaviorScript *behavior, f3
     return foundObj;
 }
 
-s32 count_imbued_objects(s32 objectList, s32 imbue) {
+s32 count_imbued_objects(s32 objectList, s32 Imbue) {
     struct ObjectNode *listHead = &gObjectLists[objectList];
     struct ObjectNode *obj = listHead->next;
     s32 count = 0;
 
     while (obj != listHead) {
-        if (((struct Object *) obj)->oImbue == imbue) {
+        if (((struct Object *) obj)->oImbue == Imbue) {
             count++;
         }
         obj = obj->next;
@@ -1230,7 +1230,7 @@ static f32 cur_obj_move_y_and_get_water_level(f32 gravity, f32 buoyancy) {
         return FLOOR_LOWER_LIMIT;
     }
 
-    return mb64_get_water_level(o->oPosX, o->oPosY, o->oPosZ);
+    return mb_get_water_level(o->oPosX, o->oPosY, o->oPosZ);
 }
 
 void obj_splash(f32 waterY, f32 objY);
@@ -2128,7 +2128,7 @@ s32 cur_obj_set_hitbox_and_die_if_attacked(struct ObjectHitbox *hitbox, s32 deat
             if ((o->oHealth < 2) || (o->oInteractStatus & INT_STATUS_ATTACKED_BY_OBJECT) ||
                 (save_file_get_badge_equip() & (1<<BADGE_DAMAGE))) {
                 spawn_mist_particles();
-                if (!cur_obj_drop_imbued_object(MB64_STAR_HEIGHT)) {
+                if (!cur_obj_drop_imbued_object(MB_STAR_HEIGHT)) {
                     obj_spawn_loot_yellow_coins(o, o->oNumLootCoins, 20.0f);
                 }
                 //gMarioState->EA_LEFT --;
@@ -2458,7 +2458,7 @@ void arbritrary_death_coin_release(void) {
         return;
     }
 
-    if (cur_obj_drop_imbued_object(MB64_STAR_HEIGHT)) {
+    if (cur_obj_drop_imbued_object(MB_STAR_HEIGHT)) {
         return;
     }
     // If toby fox can get away with the entire undertale dialog system being stored in a single switch statement, i can get
@@ -2503,7 +2503,7 @@ void cur_obj_interact_with_noteblock(void) {
 
         noteblock_interacting->oTimer = 0;
         noteblock_interacting->oVelY = 50.0f;
-        if (dist_between_objects(noteblock_interacting, gMarioObject) < MB64_DRAWDIST_LOW) {
+        if (dist_between_objects(noteblock_interacting, gMarioObject) < MB_DRAWDIST_LOW) {
             cur_obj_play_sound_2(SOUND_GENERAL_CRAZY_BOX_BOING_SLOW);
         }
     }
@@ -2520,7 +2520,7 @@ void cur_obj_interact_with_floor_switch(void) {
         }
     } else if (obj_has_behavior(platform, bhvOnOffButton)) {
         if ((platform->oAction == 1) && (platform->oTimer > 30)) {
-            mb64_play_onoff = platform->oBehParams2ndByte;
+            mb_play_onoff = platform->oBehParams2ndByte;
             play_sound(SOUND_GENERAL2_BUTTON_PRESS, gGlobalSoundSource);
         }
     } else if (obj_has_behavior(platform, bhvPlatformOnTrack)) {
@@ -2902,9 +2902,9 @@ void cur_obj_update_boss_music(void) {
 
 void update_boss_music(int was_playing_boss_music) {
     if (playing_boss_music && !was_playing_boss_music) {
-        play_mb64_extra_music(2);
+        play_mb_extra_music(2);
     } else if (!playing_boss_music && was_playing_boss_music) {
-        stop_mb64_extra_music(2);
+        stop_mb_extra_music(2);
     }
 }
 

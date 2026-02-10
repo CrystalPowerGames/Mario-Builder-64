@@ -5,7 +5,7 @@ void bhv_big_boulder_init(void) {
 
     o->oGravity = 8.0f;
     o->oFriction = 0.999f;
-    o->oBuoyancy = MB64_BUOYANCY_DEFAULT_STEP;
+    o->oBuoyancy = MB_BUOYANCY_DEFAULT_STEP;
 }
 
 void boulder_act_1(void) {

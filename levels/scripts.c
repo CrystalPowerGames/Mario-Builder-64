@@ -13,7 +13,7 @@
 #include "actors/group0.h"
 #include "actors/group14.h"
 #include "actors/group17.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 
 #include "levels/menu/header.h"
 #include "levels/intro/header.h"
@@ -256,7 +256,7 @@ const LevelScript script_func_global_1[] = {
     RETURN(),
 };
 
-const LevelScript script_func_mb64_theme_vanilla[] = {
+const LevelScript script_func_mb_theme_vanilla[] = {
     LOAD_MODEL_FROM_GEO(MODEL_MARIO, mario2_geo),
     LOAD_MODEL_FROM_GEO(MODEL_KINGBOMB_MAKER,   king_bobomb_geo),
     LOAD_MODEL_FROM_GEO(MODEL_MAKER_BOWSER_BOMB,bowser_bomb_geo),
@@ -276,7 +276,7 @@ const LevelScript script_func_mb64_theme_vanilla[] = {
     LOAD_MODEL_FROM_GEO(MODEL_MAKER_UKIKI, ukiki_geo),
     RETURN(),
 };
-const LevelScript script_func_mb64_theme_btcm[] = {
+const LevelScript script_func_mb_theme_btcm[] = {
     LOAD_MODEL_FROM_GEO(MODEL_MARIO, mario_btcm_geo),
     LOAD_MODEL_FROM_GEO(MODEL_HAMMER_BRO,     HammerBroGeo),
     LOAD_MODEL_FROM_GEO(MODEL_HAMMER,         hammer_geo),

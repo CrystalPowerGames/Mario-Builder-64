@@ -22,6 +22,7 @@
                 "${workspaceFolder}/include/object_constants.h"
             ],
             "defines": [
+                "_LANGUAGE_C=1",
                 "TARGET_N64=1",
                 "VERSION_US=1",
                 "F3DEX_GBI_2=1",

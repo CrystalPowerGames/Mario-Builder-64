@@ -17,7 +17,7 @@
 #include "include/behavior_data.h"
 #include "ingame_menu.h"
 #include "platform_displacement.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 #include "engine/surface_collision.h"
 
 u8 bullet_fuel = 0;
@@ -390,7 +390,7 @@ void update_flying(struct MarioState *m) {
 
     gMarioState->SFuel ++;
 
-    if (mb64_lopt_game == MB64_GAME_BTCM) {
+    if (mb_lopt_game == MB_GAME_BTCM) {
         if ((gMarioState->SFuel > 12)&&(gMarioState->RFuel > 0)) {
             gMarioState->RFuel --;
             gMarioState->SFuel = 0;
@@ -811,7 +811,7 @@ s32 act_twirling(struct MarioState *m) {
     s16 startTwirlYaw = m->twirlYaw;
     s16 yawVelTarget;
 
-    if (mb64_lopt_game == MB64_GAME_BTCM) {
+    if (mb_lopt_game == MB_GAME_BTCM) {
         if (m->input & INPUT_Z_DOWN) {
             yawVelTarget = 0x2800;
         }
@@ -877,7 +877,7 @@ s32 act_dive(struct MarioState *m) {
     update_air_without_turn(m);
 
     m->actionTimer++;
-    if ((mb64_lopt_game == MB64_GAME_BTCM)&&(m->flags & MARIO_WING_CAP)&&(m->faceAngle[0] < -0x443)&&(m->actionTimer > 12)) {
+    if ((mb_lopt_game == MB_GAME_BTCM)&&(m->flags & MARIO_WING_CAP)&&(m->faceAngle[0] < -0x443)&&(m->actionTimer > 12)) {
         m->angleVel[1] = 0;
         set_mario_action(m, ACT_FLYING, 0);
     }

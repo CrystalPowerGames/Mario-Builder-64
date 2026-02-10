@@ -115,7 +115,7 @@ void bhv_pyramid_top_loop(void) {
  */
 void bhv_pyramid_top_fragment_init(void) {
     o->oFriction = 0.999f;
-    o->oBuoyancy = MB64_BUOYANCY_DEFAULT_STEP;
+    o->oBuoyancy = MB_BUOYANCY_DEFAULT_STEP;
     o->oAnimState = 3;
     cur_obj_scale(o->oPyramidTopFragmentsScale);
 }

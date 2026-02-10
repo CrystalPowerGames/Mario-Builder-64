@@ -121,7 +121,7 @@ void heave_ho_move(void) {
         cur_obj_move_standard(-78);
     } else {
         if (obj_lava_death()) {
-            cur_obj_drop_imbued_object_lava(MB64_STAR_HEIGHT);
+            cur_obj_drop_imbued_object_lava(MB_STAR_HEIGHT);
         }
     }
 
@@ -159,7 +159,7 @@ void bhv_heave_ho_loop(void) {
             break;
     }
 
-    cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT);
+    cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT);
 
     o->oInteractStatus = INT_STATUS_NONE;
 }

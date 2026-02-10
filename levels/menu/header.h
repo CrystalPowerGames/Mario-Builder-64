@@ -53,7 +53,7 @@ extern const LevelScript level_main_menu_entry_act_select[];
 
 #include "levels/menu/bigpainting/header.h"
 
-extern FILINFO mb64_level_entries[MAX_FILES];
-extern u16 mb64_level_entry_piktcher[MAX_FILES][64][64];
+extern FILINFO mb_level_entries[MAX_FILES];
+extern u16 mb_level_entry_piktcher[MAX_FILES][64][64];
 
 #endif

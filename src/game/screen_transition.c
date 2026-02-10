@@ -12,7 +12,7 @@
 #include "screen_transition.h"
 #include "segment2.h"
 #include "sm64.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 
 u8 sTransitionFadeTimer = 0;
 u16 sTransitionTextureAngle = 0;
@@ -279,7 +279,7 @@ s32 render_screen_transition(s8 transType, u8 transTime, struct WarpTransitionDa
             return render_textured_transition(transTime, transData, TEX_TRANS_BOWSER, TRANS_TYPE_CLAMP);
             break;
         case WARP_TRANSITION_FADE_INTO_BOWSER:
-            if (mb64_lopt_game == MB64_GAME_BTCM) {
+            if (mb_lopt_game == MB_GAME_BTCM) {
                 return render_textured_transition(transTime, transData, TEX_TRANS_SHOWRUNNER, TRANS_TYPE_CLAMP);
             } else {
                 return render_textured_transition(transTime, transData, TEX_TRANS_BOWSER, TRANS_TYPE_CLAMP);

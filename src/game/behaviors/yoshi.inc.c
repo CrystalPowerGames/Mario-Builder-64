@@ -6,9 +6,9 @@
 static s16 sYoshiHomeLocations[] = { 0, -5625, -1364, -5912, -1403, -4609, -1004, -5308 };
 
 void bhv_yoshi_init(void) {
-    o->oGravity = MB64_GRAVITY_DEFAULT_STEP;
+    o->oGravity = MB_GRAVITY_DEFAULT_STEP;
     o->oFriction = 0.9f;
-    o->oBuoyancy = MB64_BUOYANCY_DEFAULT_STEP;
+    o->oBuoyancy = MB_BUOYANCY_DEFAULT_STEP;
     o->oInteractionSubtype = INT_SUBTYPE_NPC;
 
 #if !defined(ENABLE_VANILLA_LEVEL_SPECIFIC_CHECKS) || defined(UNLOCK_ALL)
@@ -43,7 +43,7 @@ void yoshi_walk_loop(void) {
     }
 
     if (o->oPosY < 2100.0f) {
-        create_respawner(MODEL_YOSHI, bhvYoshi, MB64_RESPAWN_DIST, 0, FALSE);
+        create_respawner(MODEL_YOSHI, bhvYoshi, MB_RESPAWN_DIST, 0, FALSE);
         o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
     }
 }

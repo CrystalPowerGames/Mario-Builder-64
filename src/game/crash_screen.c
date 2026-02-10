@@ -11,7 +11,7 @@
 #include "main.h"
 #include "debug.h"
 #include "rumble_init.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 
 #include "sm64.h"
 

@@ -24,7 +24,7 @@ static struct ObjectHitbox sFallingPillarHitbox = {
 void bhv_falling_pillar_init(void) {
     o->oGravity = 0.5f;
     o->oFriction = 0.91f;
-    o->oBuoyancy = MB64_BUOYANCY_DEFAULT_STEP;
+    o->oBuoyancy = MB_BUOYANCY_DEFAULT_STEP;
 }
 
 /**

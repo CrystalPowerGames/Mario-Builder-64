@@ -32,7 +32,7 @@
 #include "puppyprint.h"
 #include "puppylights.h"
 #include "level_commands.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 #include "mb64/menu.h"
 
 #include "config.h"
@@ -184,7 +184,7 @@ u32 pressed_pause(void) {
         intangible = FALSE;
     }
 
-    if (mb64_mode == MB64_MODE_MAKE) {
+    if (mb_mode == MB_MODE_MAKE) {
         return FALSE;
     }
 
@@ -356,7 +356,7 @@ void set_mario_initial_action(struct MarioState *m, u32 spawnType, u32 actionArg
     // set_mario_initial_cap_powerup(m);
 }
 
-extern u8 mb64_lopt_waterlevel;
+extern u8 mb_lopt_waterlevel;
 void init_mario_after_warp(void) {
     struct ObjectWarpNode *spawnNode = area_get_warp_node(sWarpDest.nodeId);
     u32 marioSpawnType = get_mario_spawn_type(spawnNode->object);
@@ -386,9 +386,9 @@ void init_mario_after_warp(void) {
             gMarioState->health = 255 + (255*gMarioState->numMaxHP);
             gMarioState->numBadgePoints = gMarioState->numMaxFP;
             // & water level
-            mb64_play_s16_water_level = -8224+(mb64_lopt_waterlevel*TILE_SIZE);
+            mb_play_s16_water_level = -8224+(mb_lopt_waterlevel*TILE_SIZE);
             gWDWWaterLevelChanging = FALSE;
-            mb64_play_onoff = FALSE;
+            mb_play_onoff = FALSE;
         }
 
         init_mario();
@@ -648,14 +648,14 @@ void initiate_warp(s16 destLevel, s16 destArea, s16 destWarpNode, s32 warpFlags)
     }
 
     if (sSourceWarpNodeId == WARP_NODE_DEATH) {
-        if (mb64_level_action == MB64_LA_BUILD) {
-            mb64_target_mode = MB64_MODE_MAKE;
+        if (gLevelAction == MB_LA_BUILD) {
+            mb_target_mode = MB_MODE_MAKE;
         }
         sWarpDest.type = WARP_TYPE_CHANGE_LEVEL;
     }
 
     //reload level if changing mode
-    if (mb64_mode != mb64_target_mode) {
+    if (mb_mode != mb_target_mode) {
         sWarpDest.type = WARP_TYPE_CHANGE_LEVEL;
     }
 
@@ -815,7 +815,7 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
                 //what the fuck is this bruhhhh
                 //fuck sm64 hp
                 //i have no idea if changing the 8 to a 5 will work, hope it does!
-                resp_cond = ((gMarioState->health > dmg_amount) && (mb64_lopt_game == MB64_GAME_BTCM) );
+                resp_cond = ((gMarioState->health > dmg_amount) && (mb_lopt_game == MB_GAME_BTCM) );
                 if (save_file_get_badge_equip() & (1<<BADGE_BOTTOMLESS)) {
                     resp_cond = (gMarioState->numBadgePoints > 0);
                 }
@@ -1097,13 +1097,13 @@ s32 play_mode_normal(void) {
 }
 
 void exit_level(void) {
-    if (mb64_level_action != MB64_LA_PLAY_LEVELS) {
-        mb64_target_mode = MB64_MODE_MAKE;
+    if (gLevelAction != MB_LA_PLAY_LEVELS) {
+        mb_target_mode = MB_MODE_MAKE;
         initiate_warp(LEVEL_BOB, 0x01, 0x0A, WARP_FLAGS_NONE);
         fade_into_special_warp(WARP_SPECIAL_NONE, 0);
         gSavedCourseNum = 0;
         gCameraMovementFlags &= ~CAM_MOVE_PAUSE_SCREEN;
-        mb64_level_action = MB64_LA_BUILD;
+        gLevelAction = MB_LA_BUILD;
     } else {
         func_80321080(1); // clear background music (i think)
         fade_into_special_warp(WARP_SPECIAL_MARIO_HEAD_REGULAR, 0); // reset game
@@ -1186,10 +1186,10 @@ s32 play_mode_change_level(void) {
         sTransitionUpdate = NULL;
         reset_menu();
         if (sSpecialWarpDest == WARP_SPECIAL_MARIO_HEAD_REGULAR) {
-            mb64_mode = MB64_MODE_UNINITIALIZED;
-            mb64_lopt_template = 0;
-            mb64_lopt_size = 0;
-            mb64_lopt_game = MB64_GAME_VANILLA;
+            mb_mode = MB_MODE_UNINITIALIZED;
+            mb_lopt_template = 0;
+            mb_lopt_size = 0;
+            mb_lopt_game = MB_GAME_VANILLA;
         }
 
         if (sWarpDest.type != WARP_TYPE_NOT_WARPING) {
@@ -1249,7 +1249,7 @@ s32 update_level(void) {
     return changeLevel;
 }
 
-extern u8 mb64_append_frameone_bandaid_fix;
+extern u8 mb_append_frameone_bandaid_fix;
 
 s32 init_level(void) {//
     s32 fadeFromColor = FALSE;
@@ -1257,17 +1257,17 @@ s32 init_level(void) {//
     OSTime first = osGetTime();
 #endif
 
-    if (mb64_mode == MB64_MODE_UNINITIALIZED) {
-        mb64_init();
+    if (mb_mode == MB_MODE_UNINITIALIZED) {
+        mb_init();
     }
 
-    mb64_append_frameone_bandaid_fix = FALSE;
+    mb_append_frameone_bandaid_fix = FALSE;
 
     //starter variables
-    if ((mb64_level_action == MB64_LA_PLAY_LEVELS)||(mb64_level_action == MB64_LA_TEST_LEVEL)) {
-        mb64_target_mode = MB64_MODE_PLAY;
+    if ((gLevelAction == MB_LA_PLAY_LEVELS)||(gLevelAction == MB_LA_TEST_LEVEL)) {
+        mb_target_mode = MB_MODE_PLAY;
     }
-    mb64_mode = mb64_target_mode;
+    mb_mode = mb_target_mode;
 
     gMarioState->MaskChase = FALSE;
 

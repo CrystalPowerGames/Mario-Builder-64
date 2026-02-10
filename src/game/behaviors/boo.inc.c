@@ -348,10 +348,10 @@ static void boo_act_2(void) {
 
 static void boo_act_3(void) {
     if (o->oTimer == 0) {
-        if (o->oImbue != IMBUE_STAR) cur_obj_drop_imbued_object(MB64_STAR_HEIGHT-128);
+        if (o->oImbue != IMBUE_STAR) cur_obj_drop_imbued_object(MB_STAR_HEIGHT-128);
     }
     if (boo_update_during_death()) {
-        cur_obj_drop_imbued_object(MB64_STAR_HEIGHT-128);
+        cur_obj_drop_imbued_object(MB_STAR_HEIGHT-128);
         obj_mark_for_deletion(o);
     }
 }
@@ -371,7 +371,7 @@ static ObjActionFunc sBooActions[] = {
 };
 
 void bhv_boo_update_home(f32 yOffset) {
-    if (cur_obj_die_if_oob(MB64_STAR_HEIGHT-256)) return;
+    if (cur_obj_die_if_oob(MB_STAR_HEIGHT-256)) return;
     if (!SURFACE_IS_UNSAFE(o->oFloorType) && !o->oFloor->object && (o->oPosY - o->oFloorHeight < yOffset) && (o->oImbue != IMBUE_STAR)) {
         vec3f_copy(&o->oHomeVec, &o->oPosVec);
         o->oHomeY = o->oFloorHeight;
@@ -464,7 +464,7 @@ static void big_boo_act_3(void) {
 
     if (o->oHealth <= 0) {
         if (o->oTimer == 0) {
-            if (o->oImbue != IMBUE_STAR) cur_obj_drop_imbued_object(MB64_STAR_HEIGHT-256);
+            if (o->oImbue != IMBUE_STAR) cur_obj_drop_imbued_object(MB_STAR_HEIGHT-256);
         }
         if (boo_update_during_death()) {
             cur_obj_disable();
@@ -473,7 +473,7 @@ static void big_boo_act_3(void) {
 
             obj_set_angle(o, 0, 0, 0);
 
-            cur_obj_drop_imbued_object(MB64_STAR_HEIGHT-256);
+            cur_obj_drop_imbued_object(MB_STAR_HEIGHT-256);
         }
     } else {
         if (o->oTimer == 0) {

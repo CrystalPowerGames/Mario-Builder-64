@@ -22,7 +22,7 @@ void piranha_plant_act_idle(void) {
      */
     cur_obj_scale(1.0f);
 
-    if (o->oDistanceToMario < MB64_DRAWDIST_LOW) {
+    if (o->oDistanceToMario < MB_DRAWDIST_LOW) {
         o->oAction = PIRANHA_PLANT_ACT_SLEEPING;
     }
 }
@@ -170,7 +170,7 @@ void piranha_plant_act_shrink_and_die(void) {
     } else {
         o->oPiranhaPlantScale = 0.0f;
         if (!(GET_BPARAM3(o->oBehParams) & RESPAWN_INFO_TYPE_NORMAL)) {
-            if (!cur_obj_drop_imbued_object(MB64_STAR_HEIGHT)) {
+            if (!cur_obj_drop_imbued_object(MB_STAR_HEIGHT)) {
                 cur_obj_spawn_loot_blue_coin();
             }
         }
@@ -315,7 +315,7 @@ ObjActionFunc TablePiranhaPlantActions[] = {
 };
 
 void bhv_piranha_plant_init(void) {
-    create_respawner(MODEL_MAKER_PLANT, bhvPiranhaPlant, MB64_RESPAWN_DIST, 0, FALSE);
+    create_respawner(MODEL_MAKER_PLANT, bhvPiranhaPlant, MB_RESPAWN_DIST, 0, FALSE);
 }
 
 /**

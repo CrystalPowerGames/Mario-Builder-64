@@ -21,7 +21,7 @@
 #include "sm64.h"
 #include "game/puppycamold.h"
 #include "actors/group0.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 #include "seq_ids.h"
 
 #include "mb64/menu_engine.h"
@@ -2040,10 +2040,10 @@ s32 lvl_init_menu_values_and_cursor_pos(UNUSED s32 arg, UNUSED s32 unused) {
  * When a save file is selected, it returns fileNum value
  * defined in load_main_menu_save_file.
  */
-extern u8 gMB64LevelLoaded;
+extern u8 gMBLevelLoaded;
 s32 lvl_update_obj_and_load_file_selected(UNUSED s32 arg, UNUSED s32 unused) {
     area_update_objects();
-    return gMB64LevelLoaded;
+    return gMBLevelLoaded;
 }
 
 STATIC_ASSERT(SOUND_MODE_COUNT == MENU_BUTTON_SOUND_OPTION_MAX - MENU_BUTTON_SOUND_OPTION_MIN, "Mismatch between number of sound modes in audio code and file select!");

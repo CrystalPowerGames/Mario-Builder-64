@@ -15,7 +15,7 @@ struct ObjectHitbox sBreakableBoxSmallHitbox = {
 void bhv_breakable_box_small_init(void) {
     o->oGravity = 2.5f;
     o->oFriction = 0.99f;
-    o->oBuoyancy = MB64_BUOYANCY_DEFAULT_STEP;
+    o->oBuoyancy = MB_BUOYANCY_DEFAULT_STEP;
     o->oWallHitboxRadius = 50.0f;
     cur_obj_scale(0.31f);
     obj_set_hitbox(o, &sBreakableBoxSmallHitbox);

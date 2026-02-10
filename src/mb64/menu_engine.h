@@ -31,7 +31,7 @@ enum MenuDirection {
 };
 
 enum InputMethod {
-    MENU_INPUT_NONE = 0,
+    MENU_INPUT_NONE      = (0 << 0),
     MENU_INPUT_JOYSTICK  = (1 << 0),
     MENU_INPUT_DPAD      = (1 << 1),
     MENU_INPUT_CBUTTONS  = (1 << 2),

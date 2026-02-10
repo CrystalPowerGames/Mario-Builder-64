@@ -22,7 +22,7 @@
 #include "actors/group0.h"
 #include "actors/group14.h"
 
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 
 #include "config.h"
 
@@ -759,8 +759,8 @@ void render_hud_coins(void) {
  */
  s8 minuz[] = {45,0};
 void render_hud_stars(void) {
-    u8 current_stars = mb64_play_stars;
-    u8 max_stars = mb64_play_stars_max;
+    u8 current_stars = mb_play_stars;
+    u8 max_stars = mb_play_stars_max;
     s8 showX = 1;//(gHudDisplay.stars < 100);
 
     print_text(GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE(HUD_STARS_X), HUD_TOP_Y, "#"); // 'Star' glyph
@@ -786,8 +786,8 @@ void render_hud_keys(void) {
 void render_hud_timer(void) {
     Texture *(*hudLUT)[58] = segmented_to_virtual(&main_hud_lut);
     u32 timerValFrames = gHudDisplay.timer;
-    if (mb64_sram_configuration.option_flags & (1<<OPT_SPEEDRUNTIMER)) {
-        timerValFrames = mb64_play_speedrun_timer;
+    if (mb_sram_configuration.option_flags & (1<<OPT_SPEEDRUNTIMER)) {
+        timerValFrames = mb_play_speedrun_timer;
     }
 
     u16 timerMins = timerValFrames / (30 * 60);
@@ -900,9 +900,9 @@ void render_hud(void) {
         display_title();
         }
 
-        gMarioState->toggleHud = (mb64_sram_configuration.option_flags & (1<<OPT_HUD));
+        gMarioState->toggleHud = (mb_sram_configuration.option_flags & (1<<OPT_HUD));
 
-        if ((mb64_mode == MB64_MODE_PLAY) && (gMarioState->toggleHud)&&(gCurrDemoInput == NULL)&&(sCurrPlayMode != PLAY_MODE_PAUSED)) {
+        if ((mb_mode == MB_MODE_PLAY) && (gMarioState->toggleHud)&&(gCurrDemoInput == NULL)&&(sCurrPlayMode != PLAY_MODE_PAUSED)) {
             if (hudDisplayFlags & HUD_DISPLAY_FLAG_COIN_COUNT) {
                 render_hud_coins();
             }
@@ -934,7 +934,7 @@ void render_hud(void) {
 #endif
 
             if (hudDisplayFlags & HUD_DISPLAY_FLAG_CAMERA_AND_POWER) {
-                if (mb64_lopt_game == MB64_GAME_VANILLA) {
+                if (mb_lopt_game == MB_GAME_VANILLA) {
                     render_hud_power_meter_vanilla();
                 } else {
                     render_hud_power_meter();
@@ -942,7 +942,7 @@ void render_hud(void) {
                 render_hud_camera_status();
             }
 
-            if ((hudDisplayFlags & HUD_DISPLAY_FLAG_TIMER)||(mb64_sram_configuration.option_flags & (1<<OPT_SPEEDRUNTIMER))) {
+            if ((hudDisplayFlags & HUD_DISPLAY_FLAG_TIMER)||(mb_sram_configuration.option_flags & (1<<OPT_SPEEDRUNTIMER))) {
                 render_hud_timer();
             }
             /*

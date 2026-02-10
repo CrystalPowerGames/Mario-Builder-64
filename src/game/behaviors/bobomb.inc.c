@@ -15,21 +15,21 @@ static struct ObjectHitbox sBobombHitbox = {
 void bhv_bobomb_init(void) {
     o->oGravity = 2.5f;
     o->oFriction = 0.8f;
-    o->oBuoyancy = MB64_BUOYANCY_DEFAULT_STEP;
+    o->oBuoyancy = MB_BUOYANCY_DEFAULT_STEP;
     o->oWallHitboxRadius = 65.f;
     o->oInteractionSubtype = INT_SUBTYPE_KICKABLE;
     o->oQuicksandDepthToDie = 55;
-    create_respawner(MODEL_BLACK_BOBOMB, bhvBobomb, MB64_RESPAWN_DIST, 150, FALSE);
+    create_respawner(MODEL_BLACK_BOBOMB, bhvBobomb, MB_RESPAWN_DIST, 150, FALSE);
 }
 
 void bobomb_spawn_coin(s32 lava) {
     if (!(GET_BPARAM3(o->oBehParams) & RESPAWN_INFO_TYPE_NORMAL)) {
         if (lava) {
-            if (!cur_obj_drop_imbued_object_lava(MB64_STAR_HEIGHT)) {
+            if (!cur_obj_drop_imbued_object_lava(MB_STAR_HEIGHT)) {
                 bully_spawn_coin();
             }
         } else {
-            if (!cur_obj_drop_imbued_object(MB64_STAR_HEIGHT)) {
+            if (!cur_obj_drop_imbued_object(MB_STAR_HEIGHT)) {
                 obj_spawn_yellow_coins(o, 1);
             }
         }
@@ -272,7 +272,7 @@ void bhv_bobomb_fuse_smoke_init(void) {
 void bhv_bobomb_buddy_init(void) {
     o->oGravity = 2.5f;
     o->oFriction = 0.8f;
-    o->oBuoyancy = MB64_BUOYANCY_DEFAULT_STEP;
+    o->oBuoyancy = MB_BUOYANCY_DEFAULT_STEP;
     o->oInteractionSubtype = INT_SUBTYPE_NPC;
 }
 

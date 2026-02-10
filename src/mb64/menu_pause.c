@@ -109,7 +109,7 @@ void badge_page_render(Selector2DComponent *m, s16 x, s16 y, u8 column, u8 row, 
     for (int i = 0; i < index+1; i++) {
         do {
             badgeid++;
-        } while (!(mb64_play_badge_bitfield & (1 << badgeid)));
+        } while (!(mb_play_badge_bitfield & (1 << badgeid)));
     }
     create_dl_translation_matrix(MENU_MTX_PUSH, x, y, 0);
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
@@ -141,8 +141,8 @@ void pause_selector_check_toggle(MenuComponent *m, UNUSED s16 x, UNUSED s16 y) {
 
 void pause_option_changed(void) {
     for (int i = 0; i < 5; i++) {
-        mb64_sram_configuration.option_flags &= ~(1 << i);
-        mb64_sram_configuration.option_flags |= (pause_menu_options[i] << i);
+        mb_sram_configuration.option_flags &= ~(1 << i);
+        mb_sram_configuration.option_flags |= (pause_menu_options[i] << i);
     }
 }
 
@@ -152,7 +152,7 @@ void add_pause_menu_option(ListComponent *options, int i, char *text) {
     t->base.prerender = listitem_render_triangle;
     ListItemComponent *listitem = component_list_append(options, t, 0, -i * 16);
 
-    pause_menu_options[i] = (mb64_sram_configuration.option_flags & (1 << i)) != 0;
+    pause_menu_options[i] = (mb_sram_configuration.option_flags & (1 << i)) != 0;
     SelectorComponent *s = init_array_selector(listitem, &pause_menu_options[i], 10, 2, pause_menu_toggle_vals, pause_option_changed);
     component_set_pos(s, 105, 0);
     s->base.prerender = pause_selector_check_toggle;
@@ -184,9 +184,9 @@ void create_pause_menu_page(int pagenum) {
         case PAUSE_PAGE_MAIN:
             MatrixComponent *scale = init_matrix_component(page, 0, 2.f, 2.f);
             component_set_pos(scale, 0, 65);
-            TextComponent *name = init_text_component(scale, 0, 0, mb64_file_name, TEXT_CENTER, TEXT_WHITE);
+            TextComponent *name = init_text_component(scale, 0, 0, mb_file_name, TEXT_CENTER, TEXT_WHITE);
             name->skipExtension = TRUE;
-            sprintf(authornamebuf, "By %s", mb64_save.author);
+            sprintf(authornamebuf, "By %s", mb_save.author);
             init_text_component(page, 0, 50, authornamebuf, TEXT_CENTER, TEXT_WHITE);
 
             options = init_list(page, DIR_VERTICAL, MENU_INPUT_JOYSTICK);
@@ -194,20 +194,20 @@ void create_pause_menu_page(int pagenum) {
             add_pause_menu_button(options, 0, "Continue", pause_button_close, MENU_OPT_CONTINUE);
             add_pause_menu_button(options, 1, "Exit Level", pause_button_close, MENU_OPT_EXIT_COURSE);
             add_pause_menu_button(options, 2, "Options", pause_button_change_page, PAUSE_PAGE_OPTIONS);
-            if (mb64_lopt_game == MB64_GAME_BTCM && count_u32_bits(mb64_play_badge_bitfield) != 0) {
+            if (mb_lopt_game == MB_GAME_BTCM && count_u32_bits(mb_play_badge_bitfield) != 0) {
                 add_pause_menu_button(options, 3, "Badges", pause_button_change_page, PAUSE_PAGE_BADGES);
             }
 
-            init_counter_component(page, 0, 30, '#', &mb64_play_stars, mb64_play_stars_max, TEXT_CENTER);
+            init_counter_component(page, 0, 30, '#', &mb_play_stars, mb_play_stars_max, TEXT_CENTER);
             int hasRedCoins = (gRedCoinsTotal > 0);
-            int hasCoinStar = (mb64_lopt_coinstar > 0);
+            int hasCoinStar = (mb_lopt_coinstar > 0);
             int redcoinX = (hasCoinStar ? -60 : 0);
             int coinstarX = (hasRedCoins ? 60 : 0);
             if (hasRedCoins) {
                 init_counter_component(page, redcoinX, -90, '&', &gRedCoinsCollected, gRedCoinsTotal, TEXT_CENTER);
             }
             if (hasCoinStar) {
-                init_counter_component(page, coinstarX, -90, '$', &gMarioStates[0].numCoins, mb64_lopt_coinstar*20, TEXT_CENTER);
+                init_counter_component(page, coinstarX, -90, '$', &gMarioStates[0].numCoins, mb_lopt_coinstar*20, TEXT_CENTER);
             }
             sPrevMenuIndex = 5;
             break;
@@ -223,7 +223,7 @@ void create_pause_menu_page(int pagenum) {
             sPrevMenuIndex = 2;
             break;
         case PAUSE_PAGE_BADGES:
-            int numBadges = count_u32_bits(mb64_play_badge_bitfield);
+            int numBadges = count_u32_bits(mb_play_badge_bitfield);
             Selector2DComponent *badges = init_selector_2d_component(page, 0, 0, 8, numBadges, badge_page_render, NULL);
             sPrevMenuIndex = 3;
             break;

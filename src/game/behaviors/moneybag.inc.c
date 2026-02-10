@@ -25,9 +25,9 @@ static struct ObjectHitbox sMoneybagHiddenHitbox = {
 };
 
 void bhv_moneybag_init(void) {
-    o->oGravity = MB64_GRAVITY_DEFAULT_STEP;
+    o->oGravity = MB_GRAVITY_DEFAULT_STEP;
     o->oFriction = 1.0f;
-    o->oBuoyancy = MB64_BUOYANCY_DEFAULT_STEP;
+    o->oBuoyancy = MB_BUOYANCY_DEFAULT_STEP;
     o->oWallHitboxRadius = 80.0f;
     cur_obj_init_animation(0);
     o->oOpacity = 0;
@@ -180,7 +180,7 @@ void moneybag_act_disappear(void) {
 
 void moneybag_act_death(void) {
     if (o->oTimer == 1) {
-        cur_obj_drop_imbued_object(MB64_STAR_HEIGHT);
+        cur_obj_drop_imbued_object(MB_STAR_HEIGHT);
         create_sound_spawner(SOUND_GENERAL_SPLATTERING);
         spawn_mist_particles();
         o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
@@ -222,7 +222,7 @@ void bhv_moneybag_loop(void) {
             break;
     }
     cur_obj_set_home_if_safe();
-    cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT);
+    cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT);
 }
 
 extern struct imbue_model imbue_model_data[];
@@ -306,9 +306,9 @@ void bhv_moneybag_hidden_loop(void) {
     cur_obj_scale(o->oMoneybagHiddenScale);
     o->oInteractStatus = INT_STATUS_NONE;
 
-    o->oGravity = MB64_GRAVITY_DEFAULT_STEP;
+    o->oGravity = MB_GRAVITY_DEFAULT_STEP;
     o->oFriction = 1.0f;
-    o->oBuoyancy = MB64_BUOYANCY_DEFAULT_STEP;
+    o->oBuoyancy = MB_BUOYANCY_DEFAULT_STEP;
     o->oWallHitboxRadius = 120.0f;
     object_step();
     o->header.gfx.throwMatrix = NULL;
@@ -316,11 +316,11 @@ void bhv_moneybag_hidden_loop(void) {
 
     if (is_cur_obj_interact_with_lava(1)) {
         if (o->prevObj) o->prevObj->activeFlags = ACTIVE_FLAG_DEACTIVATED;
-        cur_obj_drop_imbued_object(MB64_STAR_HEIGHT);
+        cur_obj_drop_imbued_object(MB_STAR_HEIGHT);
         create_sound_spawner(SOUND_GENERAL_SPLATTERING);
         spawn_mist_particles();
         o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
     }
 
-    cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT);
+    cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT);
 }

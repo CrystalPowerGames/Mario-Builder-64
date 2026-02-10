@@ -26,7 +26,7 @@
 #include "sound_init.h"
 #include "rumble_init.h"
 #include "actors/group0.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 #include "mb64/menu.h"
 
 ModelID32 gStarModelLastCollected = MODEL_STAR;
@@ -402,18 +402,18 @@ void general_star_dance_handler(struct MarioState *m, s32 isInWater) {
                 break;
 
             case 42:
-                switch(mb64_lopt_game) {
-                    case MB64_GAME_BTCM:
+                switch(mb_lopt_game) {
+                    case MB_GAME_BTCM:
                         play_sound(SOUND_MARIO_YAHOO, m->marioObj->header.gfx.cameraToObject);
                     break;
-                    case MB64_GAME_VANILLA:
+                    case MB_GAME_VANILLA:
                         play_sound(SOUND_MARIO_HERE_WE_GO, m->marioObj->header.gfx.cameraToObject);
                     break;
                 }
                 break;
 
             case 80:
-                if (mb64_play_stars == mb64_play_stars_max) {
+                if (mb_play_stars == mb_play_stars_max) {
                     enable_time_stop();
                     create_dialog_box_with_response(starDialog, star_dance_dialog_response);
                     m->actionState = ACT_STATE_STAR_DANCE_DO_SAVE;
@@ -485,7 +485,7 @@ s16 set_custom_mario_animation(struct MarioState *m, s32 targetAnimID) {
 
 s32 act_lvup_dance(struct MarioState *m) {
 
-    if (mb64_get_water_level(o->oPosX, o->oPosY, o->oPosZ) > o->oPosY) {
+    if (mb_get_water_level(o->oPosX, o->oPosY, o->oPosZ) > o->oPosY) {
         set_mario_animation(m,MARIO_ANIM_WATER_STAR_DANCE);
         return FALSE;
     }

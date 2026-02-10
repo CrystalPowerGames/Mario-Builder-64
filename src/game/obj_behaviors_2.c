@@ -32,7 +32,7 @@
 #include "spawn_sound.h"
 #include "puppylights.h"
 #include "actors/group0.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 
 //! TODO: remove static
 
@@ -350,14 +350,14 @@ static s32 obj_resolve_collisions_and_turn(s16 targetYaw, s16 turnSpeed) {
 
 static void obj_die_if_health_non_positive(void) {
     s8 old_loot_coins = o->oNumLootCoins;
-    s32 starheight = MB64_STAR_HEIGHT;
+    s32 starheight = MB_STAR_HEIGHT;
     if (o->oImbue == IMBUE_STAR) {
         if (cur_obj_has_behavior(bhvFlyGuy)
          || cur_obj_has_behavior(bhvEnemyLakitu)
          || cur_obj_has_behavior(bhvChicken)) {
             starheight = 0;
          } else if (cur_obj_has_behavior(bhvSnufit)) {
-            starheight = MB64_STAR_HEIGHT - 128;
+            starheight = MB_STAR_HEIGHT - 128;
          }
         
     }

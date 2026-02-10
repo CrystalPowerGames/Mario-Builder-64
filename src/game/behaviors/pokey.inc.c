@@ -201,7 +201,7 @@ static void pokey_act_wander(void) {
 
     if (o->oPokeyNumAliveBodyParts == POKEY_PART_BP_HEAD) {
         obj_mark_for_deletion(o);
-        cur_obj_drop_imbued_object(MB64_STAR_HEIGHT);
+        cur_obj_drop_imbued_object(MB_STAR_HEIGHT);
     } else if (o->oDistanceToMario > o->oDrawingDistance + 500.0f) {
         o->oAction = POKEY_ACT_UNLOAD_PARTS;
         o->oForwardVel = 0.0f;
@@ -290,7 +290,7 @@ static void pokey_act_wander(void) {
 
         cur_obj_move_standard(-78);
 
-        if (cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT)) {
+        if (cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT)) {
             // Unload everything
             struct ObjectNode *listHead = &gObjectLists[get_object_list_from_behavior(segmented_to_virtual(bhvPokeyBodyPart))];
             struct Object *obj = (struct Object *) listHead->next;

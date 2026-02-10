@@ -1,12 +1,10 @@
-#include "main.h"
+#include "mb_main.h"
 
 #include "game/area.h"
 #include "game/game_init.h"
 #include "game/object_list_processor.h"
 #include "behavior_data.h"
 #include "engine/math_util.h"
-
-extern void super_cum_working(struct Object *obj, s32 animIndex);
 
 void df_follow_parent(s32 context) {
     Vec3f tmp;
@@ -20,16 +18,16 @@ void df_follow_parent(s32 context) {
 }
 
 void df_hide_during_screenshot(UNUSED s32 context) {
-    if (mb64_prepare_level_screenshot) {
+    if (mb_prepare_level_screenshot) {
         o->header.gfx.node.flags |= GRAPH_RENDER_INVISIBLE;
     } else {
         o->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
     }
 }
 
-extern s16 mb64_camera_angle;
+extern s16 mb_camera_angle;
 void df_orange_number(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oHomeX = o->oPosX;
         o->oHomeZ = o->oPosZ;
         o->oVelY = 26.0f;
@@ -42,8 +40,8 @@ void df_orange_number(s32 context) {
         }
 
         s32 offsetX, offsetZ;
-        offsetX = o->oHomeY * sins(mb64_camera_angle - 0x4000);
-        offsetZ = o->oHomeY * coss(mb64_camera_angle - 0x4000);
+        offsetX = o->oHomeY * sins(mb_camera_angle - 0x4000);
+        offsetZ = o->oHomeY * coss(mb_camera_angle - 0x4000);
 
         o->oPosX = o->oHomeX + offsetX;
         o->oPosZ = o->oHomeZ + offsetZ;
@@ -90,12 +88,12 @@ void df_heart(UNUSED s32 context) {
     o->oFaceAngleYaw = (s16)(400 * gGlobalTimer);
 }
 void df_corkbox(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) o->oAnimState = 1;
+    if (context == MB_DF_CONTEXT_INIT) o->oAnimState = 1;
 }
 
 // overengineered again
 void df_crazybox(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oHomeY = o->oPosY;
         o->oVelY = 10.f;
         o->oSubAction = 0;
@@ -121,7 +119,7 @@ void df_crazybox(s32 context) {
 }
 
 void df_reds_marker(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oFaceAnglePitch = 0x4000;
         vec3_set(o->header.gfx.scale, 1.5f, 1.5f, 0.75f);
         o->oPosY -= (TILE_SIZE/2 - 60);
@@ -130,7 +128,7 @@ void df_reds_marker(s32 context) {
 }
 
 void df_tree(s32 context) {
-    if (context != MB64_DF_CONTEXT_INIT) return;
+    if (context != MB_DF_CONTEXT_INIT) return;
     switch(o->oBehParams2ndByte) {
         case 1:
             o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_MAKER_TREE_2];
@@ -151,36 +149,36 @@ void df_tree(s32 context) {
 }
 
 void df_exbox(s32 context) {
-    if (context != MB64_DF_CONTEXT_INIT) return;
-    if (mb64_lopt_game == MB64_GAME_VANILLA) {
+    if (context != MB_DF_CONTEXT_INIT) return;
+    if (mb_lopt_game == MB_GAME_VANILLA) {
         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_VEXCLAMATION_BOX];
     }
-    o->oAnimState = mb64_exclamation_box_contents[o->oBehParams2ndByte].animState;
+    o->oAnimState = mb_exclamation_box_contents[o->oBehParams2ndByte].animState;
 }
 
 void df_koopa(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) super_cum_working(o, 7);
+    if (context == MB_DF_CONTEXT_INIT) super_cum_working(o, 7);
 }
 
 #include "actors/group17.h"
 void df_ktq(s32 context) {
     df_koopa(context);
-    if (context != MB64_DF_CONTEXT_INIT) return;
+    if (context != MB_DF_CONTEXT_INIT) return;
 
     if (o->behavior == segmented_to_virtual(bhvPreviewObject)) {
         // Get trajectory and iterate over it to find the end
         s32 traj_id = o->oBehParams2ndByte;
-        if ((mb64_trajectory_list[traj_id][0][0] == -1)||(mb64_trajectory_list[traj_id][1][0] == -1)) return;
+        if ((mb_trajectory_list[traj_id][0][0] == -1)||(mb_trajectory_list[traj_id][1][0] == -1)) return;
 
-        for (s32 i = 0; i < MB64_TRAJECTORY_LENGTH; i++) {
-            if (mb64_trajectory_list[traj_id][i][0] == -1) {
+        for (s32 i = 0; i < MB_TRAJECTORY_LENGTH; i++) {
+            if (mb_trajectory_list[traj_id][i][0] == -1) {
                 // Spawn flagpole
                 struct Object *flagpole = spawn_object(o, MODEL_KOOPA_FLAG, bhvPreviewObject);
                 flagpole->oAnimations = koopa_flag_seg6_anims_06001028;
                 super_cum_working(flagpole, 0);
-                flagpole->oPosX = mb64_trajectory_list[traj_id][i-1][1];
-                flagpole->oPosY = mb64_trajectory_list[traj_id][i-1][2] - TILE_SIZE/2;
-                flagpole->oPosZ = mb64_trajectory_list[traj_id][i-1][3];
+                flagpole->oPosX = mb_trajectory_list[traj_id][i-1][1];
+                flagpole->oPosY = mb_trajectory_list[traj_id][i-1][2] - TILE_SIZE/2;
+                flagpole->oPosZ = mb_trajectory_list[traj_id][i-1][3];
                 break;
             }
         }
@@ -211,7 +209,7 @@ void df_piranha_bubble(s32 context) {
     cur_obj_scale(scale);
 }
 void df_piranha(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         super_cum_working(o, 8);
         struct Object *bubble = spawn_object(o,MODEL_BUBBLE, VIRTUAL_TO_PHYSICAL(o->behavior));
         bubble->oPreviewObjDisplayFunc = (void *)df_piranha_bubble;
@@ -223,16 +221,16 @@ void df_piranha(s32 context) {
 }
 
 void df_chuckya(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) super_cum_working(o, 4);
+    if (context == MB_DF_CONTEXT_INIT) super_cum_working(o, 4);
 }
 void df_kingbomb(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) super_cum_working(o, 5);
+    if (context == MB_DF_CONTEXT_INIT) super_cum_working(o, 5);
 }
 void df_moneybag(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) super_cum_working(o, 4);
+    if (context == MB_DF_CONTEXT_INIT) super_cum_working(o, 4);
 }
 void df_blizzard(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) o->oAction = 0;
+    if (context == MB_DF_CONTEXT_INIT) o->oAction = 0;
     o->oGraphYOffset = 24.f;
     switch (o->oAction) {
         case 0:
@@ -247,7 +245,7 @@ void df_blizzard(s32 context) {
 }
 // why did i overengineer these so much
 void df_podoboo(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oAction = 0;
         o->oHomeY = o->oPosY;
         o->oPosY -= 180.f;
@@ -283,7 +281,7 @@ void df_podoboo(s32 context) {
 }
 
 void df_mri(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oGraphYOffset = 100.0f;
         struct Object * iris = spawn_object(o,MODEL_MAKER_MRI_2, VIRTUAL_TO_PHYSICAL(o->behavior));
 
@@ -296,11 +294,11 @@ void df_mri(s32 context) {
     o->oFaceAngleYaw = (s16)(256 * gGlobalTimer);
 }
 void df_booser(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) super_cum_working(o, BOWSER_ANIM_IDLE);
+    if (context == MB_DF_CONTEXT_INIT) super_cum_working(o, BOWSER_ANIM_IDLE);
 }
 
 void df_skeeter(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) super_cum_working(o, SKEETER_ANIM_WATER_IDLE);
+    if (context == MB_DF_CONTEXT_INIT) super_cum_working(o, SKEETER_ANIM_WATER_IDLE);
 }
 
 void df_spinner_flame(s32 context) {
@@ -309,7 +307,7 @@ void df_spinner_flame(s32 context) {
 }
 
 void df_fire_spinner(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oAngleVelYaw = o->oFaceAngleYaw;
         for (s32 y = 0; y < 2; y++) {
             s16 yaw = (y * 0x8000);
@@ -339,7 +337,7 @@ void df_fire_spinner(s32 context) {
 }
 
 void df_circling_amp(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oAnimState = 1;
         vec3f_copy(&o->oHomeVec, &o->oPosVec);
         o->oAngleVelYaw = o->oFaceAngleYaw;
@@ -355,7 +353,7 @@ void df_circling_amp(s32 context) {
 extern s8 sCloudPartHeights[];
 s32 obj_y_vel_approach(f32 target, f32 delta);
 void df_lakitu(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oHomeY = o->oPosY;
         o->oVelY = -4.f;
         for (int i = 0; i < 5; i++) {
@@ -380,7 +378,7 @@ void df_lakitu(s32 context) {
 }
 
 void df_snufit(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oSnufitBodyScale = 600.0f;
         vec3f_copy(&o->oHomeVec, &o->oPosVec);
         o->oAngleVelYaw = o->oFaceAngleYaw;
@@ -398,7 +396,7 @@ void df_flyguy(s32 context) {
 }
 
 void df_boo(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oHomeY = o->oPosY - 30.f;
     }
     o->oAngleVelYaw = 0x400 * gGlobalTimer;
@@ -409,7 +407,7 @@ void df_boo(s32 context) {
 
 extern s16 sCoinArrowPositions[][2];
 void df_coin_formation(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         Vec3i pos = { 0, 0, 0 };
         s32 spawnCoin    = TRUE;
         u32 index = 0;
@@ -449,19 +447,19 @@ void df_coin_formation(s32 context) {
 }
 
 void df_grindel(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oFaceAngleYaw += 0x4000;
         o->oMoveAngleYaw += 0x4000;
     }
 }
 
 void df_hammerbro(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oPosY += 60.f;
     }
 }
 void df_firebro(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oAnimState = 1;
         o->oPosY += 60.f;
     }
@@ -475,7 +473,7 @@ void df_flame(s32 context) {
 }
 
 void df_pokey(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oPosY += 60.0f;
         for (u8 i=0; i<4; i++) {
             struct Object *part = spawn_object(o,MODEL_MAKER_POKEY_BODY,VIRTUAL_TO_PHYSICAL(o->behavior));
@@ -487,7 +485,7 @@ void df_pokey(s32 context) {
 }
 
 void df_wiggler(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         u8 size = 4; // Placeholder value until arthur implements object resizing
         for (u8 i = 1; i < size; i++) {
             struct Object *part = spawn_object(o,MODEL_WIGGLER_BODY,VIRTUAL_TO_PHYSICAL(o->behavior));
@@ -502,28 +500,28 @@ void df_wiggler(s32 context) {
 }
 
 void df_timedbox(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_MAKER_TIMEDBOX];
     }
-    if (context == MB64_DF_CONTEXT_MAIN) {
+    if (context == MB_DF_CONTEXT_MAIN) {
         df_hide_during_screenshot(context);
     }
 }
 
 void df_button(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oAnimState = o->oBehParams2ndByte;
     }
 }
 
 void df_block(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oAnimState = o->oBehParams2ndByte;
     }
 }
 
 void df_woodplat(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         if (o->oBehParams2ndByte == 1) {
             o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_MAKER_FATPLAT];
         }
@@ -531,33 +529,33 @@ void df_woodplat(s32 context) {
 }
 
 void df_crowbar(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oFaceAnglePitch = 0x1A00;
     } else {
         o->oFaceAngleYaw = 0x400 * gGlobalTimer;
         f32 dist;
-        vec3f_get_dist(&o->oPosVec, mb64_camera_pos, &dist);
-        if ((dist < MB64_DRAWDIST_LOW) && !(gGlobalTimer & 3)) spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
+        vec3f_get_dist(&o->oPosVec, mb_camera_pos, &dist);
+        if ((dist < MB_DRAWDIST_LOW) && !(gGlobalTimer & 3)) spawn_object(o, MODEL_NONE, bhvSparkleSpawn);
     }
 }
 
 void df_mask(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oGraphYOffset = -80.f;
     }
     df_crowbar(context);
 }
 
 void df_toad(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) super_cum_working(o, TOAD_ANIM_WEST_WAVING_BOTH_ARMS);
+    if (context == MB_DF_CONTEXT_INIT) super_cum_working(o, TOAD_ANIM_WEST_WAVING_BOTH_ARMS);
 } 
 
 void df_ukiki(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) super_cum_working(o, UKIKI_ANIM_SCREECH);
+    if (context == MB_DF_CONTEXT_INIT) super_cum_working(o, UKIKI_ANIM_SCREECH);
 }
 
 void df_conveyor(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         s32 shape = o->oBehParams2ndByte & 0x3;
         if (shape == 1) {
             o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_MAKER_CONVEYOR];
@@ -571,7 +569,7 @@ void df_conveyor(s32 context) {
 }
 
 void df_timedblock(s32 context) {
-    if (context == MB64_DF_CONTEXT_INIT) {
+    if (context == MB_DF_CONTEXT_INIT) {
         o->oAnimState = 2;
     }
 }

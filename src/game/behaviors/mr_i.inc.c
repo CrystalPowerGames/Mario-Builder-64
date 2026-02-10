@@ -129,7 +129,7 @@ void mr_i_body_act_spin_death(void) {
             spawn_mist_particles();
             o->oPosY += 100.f;
             o->oMrIScale = scaleModifier * 0.6f;
-            if (!cur_obj_drop_imbued_object(MB64_STAR_HEIGHT)) {
+            if (!cur_obj_drop_imbued_object(MB_STAR_HEIGHT)) {
                 cur_obj_spawn_loot_blue_coin();
             }
             obj_mark_for_deletion(o);

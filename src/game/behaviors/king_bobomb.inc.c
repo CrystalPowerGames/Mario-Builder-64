@@ -42,9 +42,9 @@ void king_bobomb_act_inactive(void) { // act 0
 
             cur_obj_move_standard(-78);
         }
-        cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT);
+        cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT);
 
-        if (o->oDistanceToMario < MB64_BOSS_TRIGGER_DIST) {
+        if (o->oDistanceToMario < MB_BOSS_TRIGGER_DIST) {
             o->oSubAction++;
             vec3_copy(&o->oKingBobombHomeX, &o->oHomeVec);
             //seq_player_lower_volume(SEQ_PLAYER_LEVEL, 60, 40);
@@ -95,7 +95,7 @@ void king_bobomb_act_active(void) { // act 2
 
     if (cur_obj_check_grabbed_mario()) {
         o->oAction = KING_BOBOMB_ACT_GRABBED_MARIO;
-    } else if (o->oDistanceToMario > MB64_BOSS_DETRIGGER_DIST &&  (o->oMoveFlags & OBJ_MOVE_MASK_ON_GROUND)) {
+    } else if (o->oDistanceToMario > MB_BOSS_DETRIGGER_DIST &&  (o->oMoveFlags & OBJ_MOVE_MASK_ON_GROUND)) {
         o->oAction = KING_BOBOMB_ACT_INACTIVE;
         o->oPlayingBossMusic = FALSE;
         o->oKingBobombShouldStomp = 0;
@@ -158,7 +158,7 @@ void king_bobomb_act_activate(void) { // act 1
 
     o->oMoveAngleYaw = approach_s16_symmetric(o->oMoveAngleYaw, o->oAngleToMario, 0x200);
 
-    if (o->oDistanceToMario < MB64_BOSS_TRIGGER_DIST) {
+    if (o->oDistanceToMario < MB_BOSS_TRIGGER_DIST) {
         o->oPlayingBossMusic = TRUE;
         o->oAction = KING_BOBOMB_ACT_ACTIVE;
     }
@@ -219,7 +219,7 @@ void king_bobomb_act_death(void) { // act 7
     spawn_triangle_break_particles(20, MODEL_DIRT_ANIMATION, 3.0f, TINY_DIRT_PARTICLE_ANIM_STATE_YELLOW);
     cur_obj_shake_screen(SHAKE_POS_SMALL);
 
-    cur_obj_drop_imbued_object(MB64_STAR_HEIGHT);
+    cur_obj_drop_imbued_object(MB_STAR_HEIGHT);
 
     o->oAction = KING_BOBOMB_ACT_STOP_MUSIC;
 }
@@ -319,7 +319,7 @@ void king_bobomb_act_return_home(void) { // act 5
 
             o->oSubAction++; // KING_BOBOMB_SUB_ACT_RETURN_HOME_LANDING_END
 
-            if (cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT)) {
+            if (cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT)) {
                 obj_drop_mario();
             }
             break;
@@ -394,7 +394,7 @@ void king_bobomb_move(void) {
     //}
 
     cur_obj_call_action_function(sKingBobombActions);
-    if (cur_obj_die_if_oob(MB64_STAR_HEIGHT)) {
+    if (cur_obj_die_if_oob(MB_STAR_HEIGHT)) {
         obj_drop_mario();
     }
     exec_anim_sound_state(sKingBobombSoundStates);

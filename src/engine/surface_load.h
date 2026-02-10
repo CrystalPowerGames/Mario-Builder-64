@@ -4,7 +4,7 @@
 #include <PR/ultratypes.h>
 
 #include "surface_collision.h"
-#include "types.h"
+#include "mb64/mb_types.h"
 
 #define SURFACE_VERTICAL_BUFFER 5
 

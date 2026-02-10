@@ -55,9 +55,9 @@ void coin_collected(void) {
 }
 
 void bhv_moving_yellow_coin_init(void) {
-    o->oGravity = MB64_GRAVITY_DEFAULT_STEP;
+    o->oGravity = MB_GRAVITY_DEFAULT_STEP;
     o->oFriction = 1.0f;
-    o->oBuoyancy = MB64_BUOYANCY_DEFAULT_STEP;
+    o->oBuoyancy = MB_BUOYANCY_DEFAULT_STEP;
 
     obj_set_hitbox(o, &sMovingYellowCoinHitbox);
 }
@@ -107,9 +107,9 @@ void bhv_moving_yellow_coin_loop(void) {
 }
 
 void bhv_moving_blue_coin_init(void) {
-    o->oGravity = MB64_GRAVITY_DEFAULT_STEP;
+    o->oGravity = MB_GRAVITY_DEFAULT_STEP;
     o->oFriction = 1.0f;
-    o->oBuoyancy = MB64_BUOYANCY_DEFAULT_STEP;
+    o->oBuoyancy = MB_BUOYANCY_DEFAULT_STEP;
 
     obj_set_hitbox(o, &sMovingBlueCoinHitbox);
 }
@@ -151,9 +151,9 @@ void bhv_moving_blue_coin_loop(void) {
 }
 
 void bhv_blue_coin_sliding_jumping_init(void) {
-    o->oGravity = MB64_GRAVITY_DEFAULT_STEP;
+    o->oGravity = MB_GRAVITY_DEFAULT_STEP;
     o->oFriction = 0.98f;
-    o->oBuoyancy = MB64_BUOYANCY_DEFAULT_STEP;
+    o->oBuoyancy = MB_BUOYANCY_DEFAULT_STEP;
 
     obj_set_hitbox(o, &sMovingBlueCoinHitbox);
 }

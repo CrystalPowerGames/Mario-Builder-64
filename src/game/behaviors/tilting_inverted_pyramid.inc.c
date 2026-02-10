@@ -625,7 +625,7 @@
 //             o->oPosZ = CLAMP(o->oPosZ, -32768, 32768); // TODO: Make sure random value is between level bounds
 //             //o->oPosY = 19000.0f;
 
-//             f32 waterLevel  = mb64_get_water_level(o->oPosX, o->oPosY, o->oPosZ);
+//             f32 waterLevel  = mb_get_water_level(o->oPosX, o->oPosY, o->oPosZ);
 //             f32 floorHeight = find_floor_height((f32)o->oPosX, 19000.0f, (f32)o->oPosZ);
 
 //             if (waterLevel > floorHeight) {
@@ -6092,7 +6092,7 @@ void tv_head_projectile(void) {
 
 void df_tree(s32 context);
 void bhv_tree_init() {
-    df_tree(MB64_DF_CONTEXT_INIT);
+    df_tree(MB_DF_CONTEXT_INIT);
 }
 
 void bhv_badge(void) {
@@ -6193,10 +6193,10 @@ void bhv_onoffswitch(void) {
         case 0: // init
             o->oAnimState = o->oBehParams2ndByte;
             o->oAction = 1;
-            if ((o->oAnimState == 0) && (!mb64_play_onoff)) {
+            if ((o->oAnimState == 0) && (!mb_play_onoff)) {
                 o->header.gfx.scale[1] = 0.1f;
                 o->oAction = 2;
-            } else if ((o->oAnimState != 0) && (mb64_play_onoff)) {
+            } else if ((o->oAnimState != 0) && (mb_play_onoff)) {
                 o->header.gfx.scale[1] = 0.1f;
                 o->oAction = 2;
             }
@@ -6205,22 +6205,22 @@ void bhv_onoffswitch(void) {
             o->header.gfx.scale[1] = approach_f32_symmetric(o->header.gfx.scale[1], 1.0f ,0.1f);
             if (gMarioPlatform == o && !(gMarioState->action & MARIO_NO_PURPLE_SWITCH)) {
                 cur_obj_play_sound_2(SOUND_GENERAL2_BUTTON_PRESS);
-                mb64_play_onoff = o->oBehParams2ndByte;
+                mb_play_onoff = o->oBehParams2ndByte;
             }
-            if ((o->oAnimState == 0) && (!mb64_play_onoff)) {
+            if ((o->oAnimState == 0) && (!mb_play_onoff)) {
                 o->oAction = 2;
-            } else if ((o->oAnimState != 0) && (mb64_play_onoff)) {
+            } else if ((o->oAnimState != 0) && (mb_play_onoff)) {
                 o->oAction = 2;
             }
             break;
         case 2: // switch down
             o->header.gfx.scale[1] = approach_f32_symmetric(o->header.gfx.scale[1], 0.1f ,0.1f);
             if (o->oBehParams2ndByte == 0) {
-                if (mb64_play_onoff) {
+                if (mb_play_onoff) {
                     o->oAction = 1;
                 }
             } else { // Blue
-                if (!mb64_play_onoff) {
+                if (!mb_play_onoff) {
                     o->oAction = 1;
                 }
             }
@@ -6238,14 +6238,14 @@ void bhv_onoffblock_init(void) {
 
 void bhv_onoffblock(void) {
     if (o->oBehParams2ndByte == 0) {
-        if (mb64_play_onoff) {
+        if (mb_play_onoff) {
             o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_MAKER_BLOCK_OFF];
         } else {
             load_object_collision_model();
             o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_MAKER_BLOCK_ON];
         }
     } else {
-        if (mb64_play_onoff) {
+        if (mb_play_onoff) {
             load_object_collision_model();
             o->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_MAKER_BLOCK_ON];
         } else {
@@ -6295,7 +6295,7 @@ void bhv_woodplat_init(void) {
 }
 
 void bhv_woodplat_loop(void) {
-    f32 waterLevel = mb64_get_water_level(o->oPosX, o->oPosY+80.f, o->oPosZ);
+    f32 waterLevel = mb_get_water_level(o->oPosX, o->oPosY+80.f, o->oPosZ);
     if (o->oWoodPlatIsStacked) {
         return;
     }
@@ -6334,7 +6334,7 @@ void bhv_woodplat_loop(void) {
     cur_obj_move_standard(-20);
     cur_obj_resolve_wall_collisions();
 
-    if (cur_obj_die_if_on_death_barrier(MB64_STAR_HEIGHT)) {
+    if (cur_obj_die_if_on_death_barrier(MB_STAR_HEIGHT)) {
         if (!o->oWoodPlatIsStacked) {
             o->prevObj->activeFlags = ACTIVE_FLAG_DEACTIVATED;
         }
@@ -6398,11 +6398,11 @@ void bhv_conveyor_init(void) {
     }
     o->oAnimState = o->oBehParams2ndByte >> 2;
 }
-extern u8 mb64_play_onoff;
+extern u8 mb_play_onoff;
 void bhv_conveyor_loop(void) {
     if (o->oAnimState > 0) {
-        if (o->oAnimState != (mb64_play_onoff + 1)) {
-            o->oAnimState = (mb64_play_onoff + 1);
+        if (o->oAnimState != (mb_play_onoff + 1)) {
+            o->oAnimState = (mb_play_onoff + 1);
             o->oFaceAngleYaw += 0x8000;
             o->oExtraVariable1 *= -1;
 
@@ -6410,7 +6410,7 @@ void bhv_conveyor_loop(void) {
             if (shape < 2) return;
             s32 targetModel = MODEL_MAKER_CONVEYOR_SLOPE;
             const void *targetCol = conveyor_slope_collision;
-            if ((shape == 2 && mb64_play_onoff) || (shape == 3 && !mb64_play_onoff)) {
+            if ((shape == 2 && mb_play_onoff) || (shape == 3 && !mb_play_onoff)) {
                 targetModel = MODEL_MAKER_CONVEYOR_DSLOPE;
                 targetCol = conveyor_dslope_collision;
             } 

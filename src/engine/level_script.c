@@ -30,7 +30,7 @@
 #include "game/puppyprint.h"
 #include "game/puppylights.h"
 #include "game/emutest.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 
 #include "config.h"
 
@@ -296,14 +296,14 @@ static void level_cmd_load_yay0(void) {
 }
 
 static void level_cmd_load_mb64(void) {
-    load_segment_decompress(0x06, mb64_theme_segments[mb64_lopt_game][0] , mb64_theme_segments[mb64_lopt_game][1]);
-    load_segment(0x0D, mb64_theme_segments[mb64_lopt_game][2], mb64_theme_segments[mb64_lopt_game][3], MEMORY_POOL_LEFT, NULL, NULL);
+    load_segment_decompress(0x06, mb_theme_segments[mb_lopt_game][0] , mb_theme_segments[mb_lopt_game][1]);
+    load_segment(0x0D, mb_theme_segments[mb_lopt_game][2], mb_theme_segments[mb_lopt_game][3], MEMORY_POOL_LEFT, NULL, NULL);
     sCurrentCmd = CMD_NEXT;
 }
 
-static void level_cmd_load_mb64_models(void) {
+static void level_cmd_load_mb_models(void) {
     *sStackTop++ = (uintptr_t) NEXT_CMD;
-    sCurrentCmd = segmented_to_virtual(mb64_theme_model_scripts[mb64_lopt_game]);
+    sCurrentCmd = segmented_to_virtual(mb_theme_model_scripts[mb_lopt_game]);
 }
 
 void level_cmd_fileselect_condition(void) {
@@ -1029,8 +1029,8 @@ static void (*LevelScriptJumpTable[])(void) = {
     /*LEVEL_CMD_PUPPYLIGHT_NODE             */ level_cmd_puppylight_node,
     /*LEVEL_CMD_SET_ECHO                    */ level_cmd_set_echo,
     /*LEVEL_CMD_FILESELECT_CONDITION        */ level_cmd_fileselect_condition,
-    /*LEVEL_CMD_LOAD_MB64                   */ level_cmd_load_mb64,
-    /*LEVEL_CMD_LOAD_MB64_MODELS            */ level_cmd_load_mb64_models,
+    /*LEVEL_CMD_LOAD_MB                   */ level_cmd_load_mb64,
+    /*LEVEL_CMD_LOAD_MB_MODELS            */ level_cmd_load_mb_models,
 };
 
 

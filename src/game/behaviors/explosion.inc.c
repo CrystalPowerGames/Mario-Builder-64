@@ -15,7 +15,7 @@ void bhv_explosion_loop(void) {
     s32 i;
 
     if (o->oTimer == 9) {
-        if (mb64_get_water_level(o->oPosX, o->oPosY, o->oPosZ) > o->oPosY) {
+        if (mb_get_water_level(o->oPosX, o->oPosY, o->oPosZ) > o->oPosY) {
             for (i = 0; i < 40; i++) {
                 spawn_object(o, MODEL_WHITE_PARTICLE_SMALL, bhvBobombExplosionBubble);
             }

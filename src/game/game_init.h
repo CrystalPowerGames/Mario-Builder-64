@@ -15,7 +15,7 @@
 
 #include "libcart/include/cart.h"
 #include "libcart/ff/ff.h"
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 
 struct GfxPool {
     Gfx buffer[GFX_POOL_SIZE];
@@ -100,18 +100,18 @@ extern Bool32 gIsGliden;
 extern Bool32 gIsWidescreen;
 
 #define MAX_FILES 251
-extern u8 mb64_level_entry_version[MAX_FILES];
+extern u8 mb_level_entry_version[MAX_FILES];
 extern FRESULT mount_success;
 extern FRESULT global_code;
-extern u8 mb64_level_entry_count;
-extern TCHAR *mb64_level_dir_name;
-extern TCHAR *mb64_hack_dir_name;
-extern struct mb64_sram_config mb64_sram_configuration;
+extern u8 mb_level_entry_count;
+extern TCHAR *mb_level_dir_name;
+extern TCHAR *mb_hack_dir_name;
+extern struct MBSramConfig mb_sram_configuration;
 
 #define gSDCard (mount_success == FR_OK)
 
 void create_level_file_path(TCHAR * buffer, TCHAR * filename, TCHAR * suffix);
-struct mb64_level_save_header * get_level_info_from_filename(char * filename);
+struct MBLevelSaveHeader * get_level_info_from_filename(char * filename);
 void load_level_files_from_sd_card(void);
 u8 level_file_exists(char * filename);
 

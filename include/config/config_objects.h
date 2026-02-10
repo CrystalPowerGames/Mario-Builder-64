@@ -8,30 +8,30 @@
  * -- COIN --
  **************/
 
-#define MB64_DRAWDIST_LOW 3500.f // For high-cost objects, like enemies
-#define MB64_DRAWDIST_MEDIUM 7000.f // For smaller low-cost objects, like NPCs
-#define MB64_DRAWDIST_HIGH 12000.f // For objects vital to the stage, like spinning firebars
+#define MB_DRAWDIST_LOW 3500.f // For high-cost objects, like enemies
+#define MB_DRAWDIST_MEDIUM 7000.f // For smaller low-cost objects, like NPCs
+#define MB_DRAWDIST_HIGH 12000.f // For objects vital to the stage, like spinning firebars
 
-#define MB64_BOSS_TRIGGER_DIST 1500.f
-#define MB64_BOSS_DETRIGGER_DIST 2200.f
+#define MB_BOSS_TRIGGER_DIST 1500.f
+#define MB_BOSS_DETRIGGER_DIST 2200.f
 
-#define MB64_STAR_HEIGHT 384
-#define MB64_RESPAWN_DIST 2000.f
+#define MB_STAR_HEIGHT 384
+#define MB_RESPAWN_DIST 2000.f
 
-#define MB64_GRAVITY_DEFAULT -400
-#define MB64_BOUNCINESS_DEFAULT -50
-#define MB64_DRAG_DEFAULT 1000
-#define MB64_FRICTION_DEFAULT 1000
-#define MB64_BUOYANCY_DEFAULT 200
+#define MB_GRAVITY_DEFAULT -400
+#define MB_BOUNCINESS_DEFAULT -50
+#define MB_DRAG_DEFAULT 1000
+#define MB_FRICTION_DEFAULT 1000
+#define MB_BUOYANCY_DEFAULT 200
 
-#define MB64_GRAVITY_DEFAULT_STEP 4.0f
-#define MB64_BUOYANCY_DEFAULT_STEP 1.4f
+#define MB_GRAVITY_DEFAULT_STEP 4.0f
+#define MB_BUOYANCY_DEFAULT_STEP 1.4f
 
 /**
  * The distance from Mario at which coin formations spawn their coins. Vanilla is 2000.0f.
  * Set this to o->oDrawingDistance for a more reasonable range at the cost of performance.
  */
-#define COIN_FORMATION_DISTANCE MB64_DRAWDIST_LOW
+#define COIN_FORMATION_DISTANCE MB_DRAWDIST_LOW
 
 /**
  * Moving Coins flicker and disappear when they hit lava instead of being instantly deleted.

@@ -493,10 +493,10 @@ void puppyprint_render_collision(void) {
 
 extern void print_fps(s32 x, s32 y);
 
-extern u32 mb64_gfx_total;
-extern u32 mb64_vtx_total;
-extern u16 mb64_tile_count;
-extern u16 mb64_object_limit_count;
+extern u32 mb_gfx_total;
+extern u32 mb_vtx_total;
+extern u16 mb_tile_count;
+extern u16 mb_object_limit_count;
 
 u32 profiler_get_cpu_cycles();
 u32 profiler_get_rsp_cycles();
@@ -506,7 +506,7 @@ u32 profiler_get_cpu_microseconds();
 u32 profiler_get_rsp_microseconds();
 u32 profiler_get_rdp_microseconds();
 
-#include "mb64/main.h"
+#include "mb64/mb_main.h"
 
 void print_basic_profiling(void) {
     char textBytes[90];
@@ -521,11 +521,11 @@ void print_basic_profiling(void) {
     print_small_text_light(16, 22, textBytes, PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, FONT_OUTLINE);
 
     sprintf(textBytes, "Tiles: %d / %d\nGFX: %d / %d\nVTX: %d / %d\nObjects: %d / %d\nVersion: %d",
-            mb64_tile_count, MB64_TILE_POOL_SIZE,
-            mb64_gfx_total, MB64_GFX_SIZE,
-            mb64_vtx_total, MB64_VTX_SIZE,
-            mb64_object_limit_count, MB64_MAX_OBJS,
-            mb64_save.version);
+            mb_tile_count, MB_TILE_POOL_SIZE,
+            mb_gfx_total, MB_GFX_SIZE,
+            mb_vtx_total, MB_VTX_SIZE,
+            mb_object_limit_count, MB_MAX_OBJS,
+            mb_save.version);
     print_small_text(16, 80, textBytes, PRINT_TEXT_ALIGN_LEFT, PRINT_ALL, FONT_OUTLINE);
 }
 
